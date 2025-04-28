@@ -26,6 +26,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->font('Inter')
+            ->brandName('E - Learning')
+            ->darkMode(false)
             ->login()
             ->colors([
                 'primary' => Color::Amber,
