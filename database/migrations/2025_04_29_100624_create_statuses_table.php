@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_type', function (Blueprint $table) {
+        Schema::create('status', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('status_type_id')->constrained('status_type');
             $table->string('name', 128);
             $table->string('desc', 255)->nullable();
+            $table->string('color', 12);
+            $table->string('icon', 255)->nullable();
             $this->base($table);
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_type');
+        Schema::dropIfExists('status');
     }
 };
