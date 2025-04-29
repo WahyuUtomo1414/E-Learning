@@ -27,11 +27,13 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->font('Inter')
-            ->brandName('E - Learning')
+            ->brandName('SMK PATRIOT NUSANTARA')
+            //->brandLogo(asset('images/1.jpg'))
+            //->brandLogoHeight('4rem')
             ->darkMode(false)
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Sky,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
