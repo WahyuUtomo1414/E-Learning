@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('school', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('logo');
+            $table->string('name', 128);
+            $table->string('logo', 255);
             $table->foreignId('school_master')->constrained('teacher');
             $table->text('street');
             $table->text('desc')->nullable();

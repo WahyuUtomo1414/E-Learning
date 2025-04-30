@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('guardian_student', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('student');
-            $table->string('name');
-            $table->string('phone_number');
+            $table->string('name', 128);
+            $table->string('phone_number', 16);
             $this->base($table);
         });
     }
