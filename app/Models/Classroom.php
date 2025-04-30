@@ -37,4 +37,8 @@ class Classroom extends Model
         return $this->hasMany(StudentClassroomsMapping::class, 'student_classrooms_mapping', 'classroom_id', 'student_id');
     }
     
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
 }
