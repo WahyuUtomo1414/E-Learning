@@ -5,6 +5,8 @@ namespace App\Filament\Widgets;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Classroom;
+use Illuminate\Support\Carbon;
+use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
@@ -15,7 +17,29 @@ class StatsOverview extends BaseWidget
         $studentCount = Student::count();
         $teacherCount = Teacher::count();
         $classCount = Classroom::count();
+        $tanggal = Carbon::now('Asia/Jakarta')->translatedFormat('d M Y');
+        $jam = Carbon::now('Asia/Jakarta')->translatedFormat('H:i:s');
+        $user = auth()->user();
+
         return [
+            Stat::make('Selamat Beraktivitas', $jam)
+                ->color('success')
+                ->icon('heroicon-s-bell-alert')
+                ->chart([7, 2, 10, 3, 15, 4, 17]),
+            Stat::make('Tanggal', $tanggal)
+                ->color('success')
+                ->icon('heroicon-s-calendar')
+                ->chart([7, 2, 10, 3, 15, 4, 17]),
+            Stat::make('', 'Absen Masuk')
+                ->description('Klik Untuk Absen Masuk')
+                ->descriptionIcon('heroicon-m-arrows-pointing-in', IconPosition::Before)
+                ->extraAttributes([
+                    'class' => 'cursor-pointer text-primary font-bold',
+                    'onclick' => "window.location.href='/absenmasuk'",
+                    'style' => 'background-color: #7AE2CF; color: #077A7D;'
+                ])
+                ->color('white')
+                ->chart([7, 2, 10, 3, 15, 4, 17]),
             Stat::make('Jumlah Peserta Didik', '242')
                 ->description('Peserta')
                 ->descriptionIcon('heroicon-m-academic-cap')
