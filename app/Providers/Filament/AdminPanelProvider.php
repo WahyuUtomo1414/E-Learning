@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('SMK PATRIOT NUSANTARA')
             ->brandLogo($this->getBrandLogo())
             ->brandLogoHeight('7rem')
+            ->favicon(asset('images/2.png'))
             ->darkMode(false)
             ->login()
             ->colors([
