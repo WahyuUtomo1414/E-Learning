@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->brandName('SMK PATRIOT NUSANTARA')
             ->brandLogo($this->getBrandLogo())
-            ->brandLogoHeight('5rem')
+            ->brandLogoHeight('7rem')
             ->darkMode(false)
             ->login()
             ->colors([
@@ -65,7 +65,7 @@ class AdminPanelProvider extends PanelProvider
     {
         // Tampilkan logo hanya di halaman login
         if (request()->is('admin/login')) {
-            return asset('images/1.jpg');
+            return asset('images/2.png');
         }
 
         // Selain itu (misal dashboard), tidak pakai logo
