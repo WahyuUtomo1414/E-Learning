@@ -22,7 +22,9 @@ class StatusTypeResource extends Resource
 {
     protected static ?string $model = StatusType::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+
+    protected static ?string $navigationGroup = 'Manajemen Status';
 
     public static function form(Form $form): Form
     {
