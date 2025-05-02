@@ -13,4 +13,9 @@ class Role extends Model
     use HasFactory, Notifiable, SoftDeletes, AuditedBySoftDelete;
     protected $table = 'role';
     protected $guarded = ['id'];
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }
