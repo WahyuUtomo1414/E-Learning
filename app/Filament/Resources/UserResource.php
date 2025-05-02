@@ -68,7 +68,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('avatar'),
+                ImageColumn::make('avatar')
+                    ->label('Avatar')
+                    ->size(70)
+                    ->circular(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('email')
@@ -101,7 +104,9 @@ class UserResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
