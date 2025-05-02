@@ -28,8 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->font('Inter')
             ->brandName('SMK PATRIOT NUSANTARA')
-            //->brandLogo(asset('images/1.jpg'))
-            //->brandLogoHeight('4rem')
+            ->brandLogo($this->getBrandLogo())
+            ->brandLogoHeight('5rem')
             ->darkMode(false)
             ->login()
             ->colors([
@@ -59,5 +59,16 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    protected function getBrandLogo(): ?string
+    {
+        // Tampilkan logo hanya di halaman login
+        if (request()->is('admin/login')) {
+            return asset('images/1.jpg');
+        }
+
+        // Selain itu (misal dashboard), tidak pakai logo
+        return null;
     }
 }
