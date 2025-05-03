@@ -31,10 +31,10 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                FileUpload::make('avatar')
+                FileUpload::make('avatar_url')
                     ->required()
                     ->image()
-                    ->directory('avatars')
+                    ->disk('avatars')
                     ->preserveFilenames()
                     ->columnSpan('full'),
                 TextInput::make('name')
@@ -70,7 +70,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('avatar')
+                ImageColumn::make('avatar_url')
                     ->label('Avatar')
                     ->size(70)
                     ->circular(),

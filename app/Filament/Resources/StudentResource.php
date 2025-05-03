@@ -50,7 +50,7 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('user.avatar')
+                ImageColumn::make('user.avatar_url')
                     ->label('Foto')
                     ->circular()
                     ->size(70),

@@ -5,12 +5,14 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Traits\AuditedBySoftDelete;
+use Illuminate\Support\Facades\Storage;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, SoftDeletes, AuditedBySoftDelete;
@@ -61,5 +63,14 @@ class User extends Authenticatable
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
+
+        return $this->$avatarColumn
+            ? Storage::disk('public')->url($this->$avatarColumn)
+            : null;
     }
 }

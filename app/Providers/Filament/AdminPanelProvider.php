@@ -6,6 +6,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -17,6 +18,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -64,7 +66,17 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentEditProfilePlugin::make()
                     ->setNavigationLabel(fn() => auth()->user()->name)
-                    ->setIcon('heroicon-o-user-circle'),
+                    ->setIcon('heroicon-o-user-circle')
+                    ->shouldShowAvatarForm(
+                        value: true,
+                        directory: 'avatars'
+                    )
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Edit Profile')
+                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle')
             ]);
     }
 
