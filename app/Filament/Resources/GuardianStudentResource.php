@@ -22,11 +22,13 @@ class GuardianStudentResource extends Resource
 {
     protected static ?string $model = GuardianStudent::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-face-smile';
 
     //protected static ?string $navigationLabel = 'Wali Murid';
 
     //protected static ?string $pluralModelLabel = 'Wali Murid';
+
+    protected static ?string $navigationGroup = 'Manajemen Pelajar';
 
     public static function form(Form $form): Form
     {
