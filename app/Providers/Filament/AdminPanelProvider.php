@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo($this->getBrandLogo())
             ->brandLogoHeight('7rem')
             ->favicon(asset('images/2.png'))
-            ->darkMode(false)
+            //->darkMode(false)
             ->login()
             ->colors([
                 'primary' => Color::Sky,
