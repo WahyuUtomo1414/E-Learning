@@ -2,16 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SchoolResource\Pages;
-use App\Filament\Resources\SchoolResource\RelationManagers;
-use App\Models\School;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\School;
+use App\Models\Status;
+use App\Models\Teacher;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TimePicker;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\SchoolResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\SchoolResource\RelationManagers;
 
 class SchoolResource extends Resource
 {
@@ -23,37 +33,47 @@ class SchoolResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
-                    ->maxLength(128),
-                Forms\Components\TextInput::make('logo')
+                    ->maxLength(128)
+                    ->columnSpanFull(2),
+                FileUpload::make('logo')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('school_master')
+                    ->image()
+                    ->directory('school')
+                    ->columnSpanFull(),
+                Select::make('school_master')
                     ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('street')
+                    ->options(
+                        Teacher::with('user')->get()->pluck('user.name', 'id')
+                    )
+                    ->searchable()
+                    ->label('School Master')
+                    ->columnSpanFull(),
+                Textarea::make('street')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('desc')
+                Textarea::make('desc')
+                    ->label('Description')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('latitude')
-                    ->numeric(),
-                Forms\Components\TextInput::make('longitude')
-                    ->numeric(),
-                Forms\Components\TextInput::make('school_start_time')
+                Section::make('Data Location')
+                    ->description('Ambil Dari Google Maps')
+                    ->schema([
+                        TextInput::make('latitude')
+                            ->numeric()
+                            ->rules(['numeric']),
+                        TextInput::make('longitude')
+                            ->numeric()
+                            ->rules(['numeric']),
+                    ])->columns(2),
+                TimePicker::make('school_start_time')
+                    ->label('School Start Time')
+                    ->placeholder('08:00:00')
                     ->required(),
-                Forms\Components\TextInput::make('status_id')
+                Select::make('status_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
+                    ->label('Status')
+                    ->options(Status::all()->pluck('name', 'id')),
             ]);
     }
 
@@ -61,32 +81,38 @@ class SchoolResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                ImageColumn::make('logo')
+                    ->label('Logo')
+                    ->circular()
+                    ->size(70),
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('logo')
+                TextColumn::make('schoolMaster.user.name')
+                    ->label('School Master')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('school_master')
+                TextColumn::make('street')
+                    ->label('Street')
+                    ->searchable(),
+                TextColumn::make('desc')
+                    ->label('Description')
+                    ->limit(50),
+                TextColumn::make('latitude')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('latitude')
+                TextColumn::make('longitude')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('longitude')
-                    ->numeric()
+                TextColumn::make('school_start_time')
+                    ->label('School Start Time'),
+                TextColumn::make('status.name')
+                    ->label('Status')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('school_start_time'),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('createdBy.name')
+                    ->label('Created By'),
+                TextColumn::make('updatedBy.name')
+                    ->label("Updated by"),
+                TextColumn::make('deletedBy.name')
+                    ->label("Deleted by"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -105,6 +131,7 @@ class SchoolResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
