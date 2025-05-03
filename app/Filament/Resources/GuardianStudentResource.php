@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GuardianStudentResource\Pages;
-use App\Filament\Resources\GuardianStudentResource\RelationManagers;
-use App\Models\GuardianStudent;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Status;
+use App\Models\Student;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\GuardianStudent;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\GuardianStudentResource\Pages;
+use App\Filament\Resources\GuardianStudentResource\RelationManagers;
 
 class GuardianStudentResource extends Resource
 {
@@ -19,31 +24,33 @@ class GuardianStudentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    //protected static ?string $navigationLabel = 'Wali Murid';
+
+    //protected static ?string $pluralModelLabel = 'Wali Murid';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('student_id')
+                Select::make('student_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
+                    ->options(
+                        Student::with('user')->get()->pluck('user.name', 'id')
+                    )
+                    ->label('Student')
+                    ->searchable()
+                    ->columnSpan(2),
+                TextInput::make('name')
                     ->required()
                     ->maxLength(128),
-                Forms\Components\TextInput::make('phone_number')
+                TextInput::make('phone_number')
                     ->tel()
                     ->required()
                     ->maxLength(16),
-                Forms\Components\TextInput::make('status_id')
+                Select::make('status_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
+                    ->label('Status')
+                    ->options(Status::all()->pluck('name', 'id')),
             ]);
     }
 
@@ -51,25 +58,24 @@ class GuardianStudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('student_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('student.user.name')
+                    ->label('Student Name')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('phone_number')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
+                TextColumn::make('phone_number')
+                    ->label('Phone Number')
+                    ->searchable(),
+                TextColumn::make('status.name')
+                    ->label('Status')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('createdBy.name')
+                    ->label('Created By'),
+                TextColumn::make('updatedBy.name')
+                    ->label("Updated by"),
+                TextColumn::make('deletedBy.name')
+                    ->label("Deleted by"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -88,6 +94,7 @@ class GuardianStudentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
