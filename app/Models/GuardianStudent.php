@@ -18,4 +18,9 @@ class GuardianStudent extends Model
     {
         return $this->belongsTo(Student::class, 'student_id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
 }
