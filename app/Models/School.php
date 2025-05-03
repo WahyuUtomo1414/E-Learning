@@ -18,4 +18,9 @@ class School extends Model
     {
         return $this->belongsTo(Teacher::class, 'school_master');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }
