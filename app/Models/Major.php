@@ -13,4 +13,9 @@ class Major extends Model
     use HasFactory, Notifiable, SoftDeletes, AuditedBySoftDelete;
     protected $table = 'major';
     protected $guarded = ['id'];
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }
