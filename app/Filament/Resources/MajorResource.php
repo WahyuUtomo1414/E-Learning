@@ -22,7 +22,9 @@ class MajorResource extends Resource
 {
     protected static ?string $model = Major::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bookmark';
+
+    protected static ?string $navigationGroup = 'Manajemen Sekolah';
 
     public static function form(Form $form): Form
     {
