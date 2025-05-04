@@ -68,7 +68,6 @@ class AdminPanelProvider extends PanelProvider
                     ->setNavigationLabel(fn() => auth()->user()->name)
                     ->setIcon('heroicon-o-user-circle')
                     ->shouldShowAvatarForm(
-                        value: true,
                         directory: 'avatars'
                     )
             ])

@@ -2,6 +2,6 @@
 
 return [
     'avatar_column' => 'avatar_url',
-    'directory' => 'avatars',
+    'disk' => 'avatars',
     'visibility' => 'public', 
 ];
