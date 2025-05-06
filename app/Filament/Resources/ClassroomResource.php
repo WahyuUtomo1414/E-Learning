@@ -2,59 +2,100 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClassroomResource\Pages;
-use App\Filament\Resources\ClassroomResource\RelationManagers;
-use App\Models\Classroom;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Major;
+use App\Models\Course;
+use App\Models\School;
+use App\Models\Status;
+use App\Models\Student;
+use App\Models\Teacher;
+use Filament\Forms\Form;
+use App\Models\Classroom;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ClassroomResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ClassroomResource\RelationManagers;
 
 class ClassroomResource extends Resource
 {
     protected static ?string $model = Classroom::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
+
+    protected static ?string $navigationLabel = 'Class';
+
+    protected static ?string $pluralModelLabel = 'Class';
+
+    protected static ?string $navigationGroup = 'Manajemen Sekolah';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('teacher_id')
+                Select::make('school_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('school_id')
+                    ->searchable()
+                    ->options(fn () => School::query()->pluck('name', 'id')->toArray())
+                    ->label('School'),
+                Select::make('teacher_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('major_id')
+                    ->searchable()
+                    ->options(
+                        Teacher::with('user')->get()->pluck('user.name', 'id')
+                    )
+                    ->label('Guardian Class'),
+                Section::make('Class Data')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        Select::make('major_id')
+                            ->required()
+                            ->searchable()
+                            ->options(fn () => Major::query()->pluck('name', 'id')->toArray())
+                            ->label('Major'),
+                        TextInput::make('name')
+                            ->required()
+                            ->label('Level')
+                            ->maxLength(128),
+                        TextInput::make('classroom_number')
+                            ->required()
+                            ->label('Classroom Number')
+                            ->maxLength(10),
+                        Textarea::make('desc')
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Description')
+                            ->columnSpan(3),
+                    ])->columns(3),
+                Section::make('Student Data')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        Select::make('students')
+                            ->options(Student::with('user')->get()->pluck('user.name', 'id'))
+                            ->multiple()
+                            ->label('Student'),
+                    ]),
+                Section::make('Course Data')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        Select::make('cource_id')
+                            ->required()
+                            ->label('Course')
+                            ->multiple()
+                            ->searchable()
+                            ->options(Course::all()->pluck('name', 'id')),
+                    ]),
+                Select::make('status_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(128),
-                Forms\Components\TextInput::make('classroom_number')
-                    ->required()
-                    ->maxLength(10),
-                Forms\Components\TextInput::make('desc')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('course_id')
-                    ->required()
-                    ->numeric(),
+                    ->label('Status')
+                    ->searchable()
+                    ->options(Status::all()->pluck('name', 'id')),
             ]);
     }
 
