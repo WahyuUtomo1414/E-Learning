@@ -22,13 +22,13 @@ class StatsOverview extends BaseWidget
         $user = auth()->user();
 
         return [
-            Stat::make('Selamat Beraktivitas', $jam)
-                ->color('success')
-                ->icon('heroicon-s-bell-alert')
-                ->chart([7, 2, 10, 3, 15, 4, 17]),
             Stat::make('Tanggal', $tanggal)
                 ->color('success')
                 ->icon('heroicon-s-calendar')
+                ->chart([7, 2, 10, 3, 15, 4, 17]),
+            Stat::make('Selamat Beraktivitas', $jam)
+                ->color('success')
+                ->icon('heroicon-s-bell-alert')
                 ->chart([7, 2, 10, 3, 15, 4, 17]),
             Stat::make('', 'Absen Masuk')
                 ->description('Klik Untuk Absen Masuk')
