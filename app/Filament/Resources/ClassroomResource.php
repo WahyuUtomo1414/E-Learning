@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ClassroomResource\Pages;
@@ -103,33 +104,37 @@ class ClassroomResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('teacher_id')
-                    ->numeric()
+                TextColumn::make('school.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('school_id')
-                    ->numeric()
+                TextColumn::make('teacher.name')
+                    ->label('Guardian Class')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('major_id')
-                    ->numeric()
+                TextColumn::make('major.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
+                    ->label('Level')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('classroom_number')
+                TextColumn::make('classroom_number')
+                    ->label('Class Number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('desc')
+                TextColumn::make('students_count')
+                    ->label('Student Count')
+                    ->counts('students')
+                    ->sortable(),
+                TextColumn::make('course.name')
+                    ->label('Course')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
+                TextColumn::make('desc')
+                    ->label('Description')
+                    ->searchable(),
+                TextColumn::make('status.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('createdBy.name')
+                    ->label('Created By'),
+                TextColumn::make('updatedBy.name')
+                    ->label("Updated by"),
+                TextColumn::make('deletedBy.name')
+                    ->label("Deleted by"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
