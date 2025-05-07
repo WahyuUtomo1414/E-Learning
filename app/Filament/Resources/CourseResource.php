@@ -2,16 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers;
-use App\Models\Course;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Course;
+use App\Models\Status;
+use App\Models\Teacher;
+use Filament\Forms\Form;
+use App\Models\Classroom;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TimePicker;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\CourseResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\CourseResource\RelationManagers;
 
 class CourseResource extends Resource
 {
@@ -23,36 +33,45 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('teacher_id')
+                Select::make('classroom_id')
+                    ->options(Classroom::all()->pluck('name', 'id'))
+                    ->label('Classroom')
+                    ->searchable(),
+                Select::make('teacher_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('classroom_id')
+                    ->options(Teacher::with('user')->get()->pluck('user.name', 'id'))
+                    ->label('Subject Teachers')
+                    ->searchable(),
+                TextInput::make('name')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
+                    ->maxLength(128)
+                    ->columnSpan(2),
+                Textarea::make('desc')
+                    ->maxLength(255)
+                    ->label('Description')
+                    ->columnSpan(2),
+                TextInput::make('learning_materials')
+                    ->label('Learning Materials')
+                    ->maxLength(255)
+                    ->columnSpan(2),
+                Section::make('Class Data')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                    DatePicker::make('day')
+                        ->required()
+                        ->native(false),
+                    TimePicker::make('check_in')
+                        ->required()
+                        ->native(false),
+                    TimePicker::make('check_out')
+                        ->required()
+                        ->native(false),
+                ])->columns(3),
+                Select::make('status_id')
                     ->required()
-                    ->maxLength(128),
-                Forms\Components\TextInput::make('desc')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('learning_materials')
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('day')
-                    ->required(),
-                Forms\Components\TextInput::make('check_in')
-                    ->required(),
-                Forms\Components\TextInput::make('check_out')
-                    ->required(),
-                Forms\Components\TextInput::make('status_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
+                    ->label('Status')
+                    ->options(Status::all()->pluck('name', 'id'))
+                    ->searchable(),
             ]);
     }
 
@@ -60,35 +79,42 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('teacher_id')
-                    ->numeric()
+                TextColumn::make('classroom.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('classroom_id')
-                    ->numeric()
+                TextColumn::make('teacher.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('desc')
+                TextColumn::make('desc')
+                    ->label('Description')
+                    ->limit(50)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('learning_materials')
+                TextColumn::make('learning_materials')
+                    ->label('Learning Materials')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('day')
+                TextColumn::make('day')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('check_in'),
-                Tables\Columns\TextColumn::make('check_out'),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
+                TextColumn::make('check_in')
+                    ->label('Check In')
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return \Carbon\Carbon::parse($state)->format('H:i') . ' WIB';
+                    }),
+                TextColumn::make('check_out')
+                    ->label('Check Out')
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return \Carbon\Carbon::parse($state)->format('H:i') . ' WIB';
+                    }),
+                TextColumn::make('status.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('createdBy.name')
+                    ->label('Created By'),
+                TextColumn::make('updatedBy.name')
+                    ->label("Updated by"),
+                TextColumn::make('deletedBy.name')
+                    ->label("Deleted by"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -107,6 +133,7 @@ class CourseResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
