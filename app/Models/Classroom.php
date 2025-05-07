@@ -41,4 +41,9 @@ class Classroom extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
 }
