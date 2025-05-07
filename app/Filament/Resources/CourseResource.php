@@ -81,8 +81,10 @@ class CourseResource extends Resource
             ->columns([
                 TextColumn::make('classroom.name')
                     ->sortable(),
-                TextColumn::make('teacher.name')
-                    ->sortable(),
+                TextColumn::make('teacher.user.name')
+                    ->label('Teacher Name')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('desc')

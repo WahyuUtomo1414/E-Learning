@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Teacher;
 use App\Traits\AuditedBySoftDelete;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -16,11 +17,16 @@ class Course extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
     public function classroom()
     {
         return $this->belongsTo(Classroom::class, 'classroom_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }
