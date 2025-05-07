@@ -7,6 +7,7 @@ use App\Models\School;
 use App\Models\Teacher;
 use App\Traits\AuditedBySoftDelete;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\StudentClassroomsMapping;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,9 +33,20 @@ class Classroom extends Model
         return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
+    public function studentMappings()
+    {
+        return $this->hasMany(StudentClassroomsMapping::class, 'class_id');
+    }
+
     public function students()
     {
-        return $this->hasMany(StudentClassroomsMapping::class, 'student_classrooms_mapping', 'classroom_id', 'student_id');
+        return $this->hasMany(StudentClassroomsMapping::class, 'class_id');
+    }
+
+    // Akses langsung nama siswa dari relasi user
+    public function studentNames()
+    {
+        return $this->studentMappings->map(fn($m) => $m->student->user->name ?? '-')->implode(', ');
     }
     
     public function course()

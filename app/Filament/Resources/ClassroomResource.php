@@ -103,10 +103,11 @@ class ClassroomResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(fn () => Classroom::with('studentMappings.student.user'))
             ->columns([
                 TextColumn::make('school.name')
                     ->sortable(),
-                TextColumn::make('teacher.name')
+                TextColumn::make('teacher.user.name')
                     ->label('Guardian Class')
                     ->sortable(),
                 TextColumn::make('major.name')
@@ -117,15 +118,14 @@ class ClassroomResource extends Resource
                 TextColumn::make('classroom_number')
                     ->label('Class Number')
                     ->searchable(),
-                TextColumn::make('students_count')
-                    ->label('Student Count')
-                    ->counts('students')
-                    ->sortable(),
-                TextColumn::make('course.name')
-                    ->label('Course')
-                    ->searchable(),
                 TextColumn::make('desc')
                     ->label('Description')
+                    ->searchable(),
+                TextColumn::make('students_count')
+                    ->label('Total Students')
+                    ->counts('students'), 
+                TextColumn::make('course.name')
+                    ->label('Course')
                     ->searchable(),
                 TextColumn::make('status.name')
                     ->sortable(),
@@ -187,6 +187,6 @@ class ClassroomResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ]);
+            ])->withCount('students');
     }
 }

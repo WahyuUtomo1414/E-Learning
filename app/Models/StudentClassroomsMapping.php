@@ -24,13 +24,13 @@ class StudentClassroomsMapping extends Model
         'classroom_id',
     ];
     
-    public function student(): BelongsTo
+    public function student()
     {
         return $this->belongsTo(Student::class, 'student_id');
     }
 
-    public function classroom(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(Classroom::class, 'classroom_id');
+        return $this->belongsTo(User::class, 'student_id');
     }
 }
