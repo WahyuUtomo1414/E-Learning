@@ -31,6 +31,6 @@ class StudentClassroomsMapping extends Model
 
     public function classroom(): BelongsTo
     {
-        return $this->belongsTo(Classroom::class, 'class_id');
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 }
