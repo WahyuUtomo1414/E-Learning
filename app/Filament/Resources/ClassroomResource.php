@@ -84,16 +84,6 @@ class ClassroomResource extends Resource
                             ->searchable()
                             ->label('Student'),
                     ]),
-                Section::make('Course Data')
-                    ->description('Prevent abuse by limiting the number of requests per period')
-                    ->schema([
-                        Select::make('cource_id')
-                            ->required()
-                            ->label('Course')
-                            ->multiple()
-                            ->searchable()
-                            ->options(Course::all()->pluck('name', 'id')),
-                    ]),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
