@@ -32,22 +32,6 @@ class Classroom extends Model
     {
         return $this->belongsTo(Teacher::class, 'teacher_id');
     }
-
-    public function studentMappings()
-    {
-        return $this->hasMany(StudentClassroomsMapping::class, 'class_id');
-    }
-
-    public function students()
-    {
-        return $this->hasMany(StudentClassroomsMapping::class, 'class_id');
-    }
-
-    // Akses langsung nama siswa dari relasi user
-    public function studentNames()
-    {
-        return $this->studentMappings->map(fn($m) => $m->student->user->name ?? '-')->implode(', ');
-    }
     
     public function course()
     {
@@ -57,5 +41,10 @@ class Classroom extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'student_classrooms_mapping', 'class_id', 'student_id');
     }
 }

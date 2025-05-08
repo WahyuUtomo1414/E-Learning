@@ -80,6 +80,8 @@ class ClassroomResource extends Resource
                         Select::make('students')
                             ->options(Student::with('user')->get()->pluck('user.name', 'id'))
                             ->multiple()
+                            ->required()
+                            ->searchable()
                             ->label('Student'),
                     ]),
                 Section::make('Course Data')
@@ -103,7 +105,6 @@ class ClassroomResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(fn () => Classroom::with('studentMappings.student.user'))
             ->columns([
                 TextColumn::make('school.name')
                     ->sortable(),
@@ -121,12 +122,19 @@ class ClassroomResource extends Resource
                 TextColumn::make('desc')
                     ->label('Description')
                     ->searchable(),
-                TextColumn::make('students_count')
+                TextColumn::make('students.user.name')
                     ->label('Total Students')
-                    ->counts('students'), 
+                    ->formatStateUsing(function ($record) {
+                        return $record->students
+                            ->map(fn($student) => $student->user?->name)
+                            ->filter() // Hindari null
+                            ->join(', ');
+                    })
+                    ->listWithLineBreaks(), 
                 TextColumn::make('course.name')
                     ->label('Course')
-                    ->searchable(),
+                    ->searchable()
+                    ->listWithLineBreaks(),
                 TextColumn::make('status.name')
                     ->sortable(),
                 TextColumn::make('createdBy.name')
@@ -147,9 +155,6 @@ class ClassroomResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('course_id')
-                    ->numeric()
-                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -187,6 +192,6 @@ class ClassroomResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ])->withCount('students');
+            ])->with(['students.user']);
     }
 }
