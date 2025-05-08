@@ -29,4 +29,9 @@ class Course extends Model
     {
         return $this->belongsTo(Status::class, 'status_id');
     }
+
+    public function day()   
+    {
+        return $this->belongsTo(Day::class, 'day_id');
+    }
 }
