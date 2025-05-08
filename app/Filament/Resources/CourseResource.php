@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Day;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Course;
@@ -59,9 +60,11 @@ class CourseResource extends Resource
                 Section::make('Class Data')
                     ->description('Prevent abuse by limiting the number of requests per period')
                     ->schema([
-                    DatePicker::make('day')
+                    Select::make('day_id')
                         ->required()
-                        ->native(false),
+                        ->options(Day::all()->pluck('name', 'id'))
+                        ->label('Day')
+                        ->searchable(),
                     TimePicker::make('check_in')
                         ->required()
                         ->native(false),
@@ -96,8 +99,9 @@ class CourseResource extends Resource
                 TextColumn::make('learning_materials')
                     ->label('Learning Materials')
                     ->searchable(),
-                TextColumn::make('day')
-                    ->date()
+                TextColumn::make('day.name')
+                    ->searchable()
+                    ->label('Day')
                     ->sortable(),
                 TextColumn::make('check_in')
                     ->label('Check In')
