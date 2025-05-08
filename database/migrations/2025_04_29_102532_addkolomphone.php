@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone_number', 16);
-            $table->string('avatar');
+            $table->string('avatar_url');
             $table->foreignId('role_id')->constrained('role');
             $this->base($table);
         });
@@ -28,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone_number', 16);
-            $table->string('avatar', 255);
+            $table->string('avatar_url', 255);
             $table->foreignId('role_id')->constrained('role');
             $this->base($table);
         });
