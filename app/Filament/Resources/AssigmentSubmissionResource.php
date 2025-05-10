@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AssigmentSubmissionResource\Pages;
-use App\Filament\Resources\AssigmentSubmissionResource\RelationManagers;
-use App\Models\AssigmentSubmission;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Status;
+use Filament\Forms\Form;
+use App\Models\Assigment;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use App\Models\AssigmentSubmission;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AssigmentSubmissionResource\Pages;
+use App\Filament\Resources\AssigmentSubmissionResource\RelationManagers;
 
 class AssigmentSubmissionResource extends Resource
 {
@@ -25,27 +30,28 @@ class AssigmentSubmissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('assigment_id')
+                Select::make('assigment_id')
+                    ->options(Assigment::all()->pluck('name', 'id'))
+                    ->label('Assigment')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('answer_link')
+                    ->searchable(),
+                TextInput::make('answer_link')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('score')
-                    ->maxLength(3),
-                Forms\Components\Textarea::make('feedback')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('status_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
-                    ->required()
+                TextInput::make('score')
+                    ->maxLength(3)
                     ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->columnSpan(2),
+                Textarea::make('feedback')
+                    ->columnSpanFull(),
+                Select::make('status_id')
+                    ->required()
+                    ->label('Status')
+                    ->searchable()
+                    ->default(1)
+                    ->options(Status::all()->pluck('name', 'id')),
             ]);
     }
 
