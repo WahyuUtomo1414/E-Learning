@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use App\Models\AssigmentSubmission;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -59,25 +60,32 @@ class AssigmentSubmissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('assigment_id')
-                    ->numeric()
+                TextColumn::make('assigment.name')
+                    ->searchable()
+                    ->label('Assigment')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('answer_link')
+                TextColumn::make('answer_link')
+                    ->url(fn (AssigmentSubmission $record): string => $record->answer_link)
+                    ->color('info')
+                    ->label('Answer Link')
+                    ->openUrlInNewTab()
+                    ->limit(50)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('score')
+                TextColumn::make('score')   
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
+                TextColumn::make('feedback')
+                    ->limit(50)
+                    ->searchable(),
+                TextColumn::make('status.name')
+                    ->label('Status')   
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('createdBy.name')
+                    ->label('Created By'),
+                TextColumn::make('updatedBy.name')
+                    ->label("Updated by"),
+                TextColumn::make('deletedBy.name')
+                    ->label("Deleted by"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -96,6 +104,7 @@ class AssigmentSubmissionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
