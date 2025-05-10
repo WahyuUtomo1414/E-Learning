@@ -113,13 +113,7 @@ class ClassroomResource extends Resource
                     ->label('Description')
                     ->searchable(),
                 TextColumn::make('students.user.name')
-                    ->label('Total Students')
-                    ->formatStateUsing(function ($record) {
-                        return $record->students
-                            ->map(fn($student) => $student->user?->name)
-                            ->filter() // Hindari null
-                            ->join(', ');
-                    })
+                    ->label('Student')
                     ->listWithLineBreaks(), 
                 TextColumn::make('course.name')
                     ->label('Course')
@@ -182,6 +176,6 @@ class ClassroomResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ])->with(['students.user']);
+            ]);
     }
 }
