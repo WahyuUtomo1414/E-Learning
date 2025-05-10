@@ -27,7 +27,9 @@ class AssigmentResource extends Resource
 {
     protected static ?string $model = Assigment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
+
+    protected static ?string $navigationGroup = 'Manajemen Tugas';
 
     public static function form(Form $form): Form
     {
