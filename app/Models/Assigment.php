@@ -23,4 +23,9 @@ class Assigment extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }
