@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AssigmentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -65,31 +68,36 @@ class AssigmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('classroom_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('course_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('classroom.name')
+                    ->label('Classroom')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('question_link')
+                TextColumn::make('course.name')
+                    ->label('Course')
+                    ->sortable()
+                    ->sortable(),
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('deadline')
+                TextColumn::make('question_link')
+                    ->searchable()
+                    ->url(fn (Assigment $record): string => $record->question_link)
+                    ->openUrlInNewTab()
+                    ->color('info')
+                    ->limit(50),
+                TextColumn::make('deadline')
                     ->date()
+                    ->sortable()
+                    ->limit(50),
+                TextColumn::make('status.name')
+                    ->label('Status')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('createdBy.name')
+                    ->label('Created By'),
+                TextColumn::make('updatedBy.name')
+                    ->label("Updated by"),
+                TextColumn::make('deletedBy.name')
+                    ->label("Deleted by"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -107,7 +115,8 @@ class AssigmentResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
