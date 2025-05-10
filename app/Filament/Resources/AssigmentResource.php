@@ -2,16 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AssigmentResource\Pages;
-use App\Filament\Resources\AssigmentResource\RelationManagers;
-use App\Models\Assigment;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Course;
+use App\Models\Status;
+use Filament\Forms\Form;
+use App\Models\Assigment;
+use App\Models\Classroom;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\AssigmentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AssigmentResource\RelationManagers;
 
 class AssigmentResource extends Resource
 {
@@ -23,33 +30,34 @@ class AssigmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('classroom_id')
+                Select::make('classroom_id')
+                    ->options(Classroom::all()->pluck('name', 'id'))
+                    ->label('Classroom')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('course_id')
+                    ->searchable(),
+                Select::make('course_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
+                    ->options(Course::all()->pluck('name', 'id'))
+                    ->label('Course')
+                    ->searchable(),
+                TextInput::make('name')
                     ->required()
+                    ->columnSpan(2)
                     ->maxLength(128),
-                Forms\Components\Textarea::make('desc')
+                Textarea::make('desc')
+                    ->label('Description')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('question_link')
+                TextInput::make('question_link')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('deadline')
-                    ->required(),
-                Forms\Components\TextInput::make('status_id')
+                DatePicker::make('deadline')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
+                    ->native(false),
+                Select::make('status_id')
                     ->required()
-                    ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
+                    ->label('Status')
+                    ->searchable()
+                    ->options(Status::all()->pluck('name', 'id')),
             ]);
     }
 
