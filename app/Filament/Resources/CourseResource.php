@@ -84,13 +84,13 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('name')
+                    ->searchable(),
                 TextColumn::make('classroom.name')
                     ->sortable(),
                 TextColumn::make('teacher.user.name')
                     ->label('Teacher Name')
                     ->sortable()
-                    ->searchable(),
-                TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('desc')
                     ->label('Description')
@@ -140,6 +140,7 @@ class CourseResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
             ])
