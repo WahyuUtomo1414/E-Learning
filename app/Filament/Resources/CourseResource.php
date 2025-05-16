@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Models\Day;
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Course;
 use App\Models\Status;
@@ -11,18 +10,19 @@ use App\Models\Teacher;
 use Filament\Forms\Form;
 use App\Models\Classroom;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Section as FormSection;
+use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\CourseResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CourseResource\RelationManagers;
 
 class CourseResource extends Resource
 {
@@ -57,7 +57,7 @@ class CourseResource extends Resource
                     ->label('Learning Materials')
                     ->maxLength(255)
                     ->columnSpan(2),
-                Section::make('Class Data')
+                FormSection::make('Class Data')
                     ->description('Prevent abuse by limiting the number of requests per period')
                     ->schema([
                     Select::make('day_id')
@@ -98,6 +98,9 @@ class CourseResource extends Resource
                     ->searchable(),
                 TextColumn::make('learning_materials')
                     ->label('Learning Materials')
+                    ->url(fn (Course $record): string => $record->learning_materials)
+                    ->openUrlInNewTab()
+                    ->color('info')
                     ->searchable(),
                 TextColumn::make('day.name')
                     ->searchable()
@@ -150,6 +153,55 @@ class CourseResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                InfolistSection::make('Course Data')
+                    ->icon('heroicon-m-book-open')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        TextEntry::make('name')
+                            ->label('Course Name'),
+                        TextEntry::make('classroom_full')
+                            ->label('Classroom')
+                            ->getStateUsing(fn ($record) => $record->classroom->name . ' - ' . $record->classroom->classroom_number),
+                        TextEntry::make('teacher.user.name')
+                            ->label('Teacher Name'),
+                        TextEntry::make('desc')
+                            ->label('Description')
+                            ->columnSpan(3),
+                        TextEntry::make('learning_materials')
+                            ->label('Learning Materials')
+                            ->url(fn (Course $record): string => $record->learning_materials)
+                            ->openUrlInNewTab()
+                            ->color('info')
+                            ->columnSpan(3),
+                    ])
+                    ->columns(3),
+                InfolistSection::make('Subject Time')
+                    ->icon('heroicon-m-clock')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        TextEntry::make('day.name')
+                            ->label('Day'),
+                        TextEntry::make('check_in')
+                            ->label('Check In')
+                            ->formatStateUsing(function ($state) {
+                                return \Carbon\Carbon::parse($state)->format('H:i') . ' WIB';
+                            }),
+                        TextEntry::make('check_out')
+                            ->label('Check Out')
+                            ->formatStateUsing(function ($state) {
+                                return \Carbon\Carbon::parse($state)->format('H:i') . ' WIB';
+                            }),
+                    ])
+                    ->columns(3),
+                TextEntry::make('status.name')
+                    ->label('Status'),
             ]);
     }
 
