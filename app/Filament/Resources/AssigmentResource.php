@@ -70,10 +70,13 @@ class AssigmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('classroom.name')
-                    ->label('Classroom')
+                TextColumn::make('classroom.major.name')
+                    ->label('Major')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('classroom_full')
+                    ->label('Classroom')
+                    ->getStateUsing(fn ($record) => $record->classroom->name . ' - ' . $record->classroom->classroom_number),
                 TextColumn::make('course.name')
                     ->label('Course')
                     ->sortable()
