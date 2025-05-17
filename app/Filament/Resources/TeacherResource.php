@@ -9,12 +9,17 @@ use App\Models\Status;
 use App\Models\Teacher;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Sectionn;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\TeacherResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TeacherResource\RelationManagers;
@@ -94,6 +99,7 @@ class TeacherResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -104,6 +110,32 @@ class TeacherResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Teacher Data')
+                    ->icon('heroicon-m-briefcase')
+                    ->aside()
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        ImageEntry::make('user.avatar_url')
+                            ->label('Foto')
+                            ->circular()
+                            ->size(150)
+                            ->columnSpanFull(),
+                        TextEntry::make('user.name')
+                            ->label('Teacher Name'),
+                        TextEntry::make('techer_number')
+                            ->label('Teacher Number'),
+                        TextEntry::make('user.email')
+                            ->label('Email'),
+                        TextEntry::make('user.phone_number')
+                            ->label('Phone Number'),
+                    ])->columns(2),
+                ]);
     }
 
     public static function getRelations(): array
