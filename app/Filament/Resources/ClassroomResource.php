@@ -114,10 +114,6 @@ class ClassroomResource extends Resource
                     ->searchable(),
                 TextColumn::make('students.user.name')
                     ->label('Student')
-                    ->listWithLineBreaks(), 
-                TextColumn::make('course.name')
-                    ->label('Course')
-                    ->searchable()
                     ->listWithLineBreaks(),
                 TextColumn::make('status.name')
                     ->sortable(),
