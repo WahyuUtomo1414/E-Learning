@@ -200,8 +200,6 @@ class CourseResource extends Resource
                             }),
                     ])
                     ->columns(3),
-                TextEntry::make('status.name')
-                    ->label('Status'),
             ]);
     }
 
