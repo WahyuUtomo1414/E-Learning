@@ -16,14 +16,14 @@
     @endphp
 
     <!-- Card Data User -->
-    <div class="max-w-[420px] h-auto shadow-lg border-2 border-gray-200 rounded-md bg-white mx-auto">
-        <div class="px-6 h-[220px] bg-gradient-to-r from-emerald-900 to-emerald-700 rounded-b-3xl text-white flex items-center justify-between border-b-8 border-amber-500">
+    <div class="max-w-[420px] h-auto shadow-lg border-2 border-gray-200 rounded-lg bg-white mx-auto">
+        <div class="px-6 h-[220px] bg-gradient-to-r from-sky-900 to-sky-700 rounded-b-3xl text-white flex items-center justify-between border-b-8 border-amber-500">
             <div class="font-poppins">
-                <h1 class="text-[16px]">Selamat Pagi,</h1>
-                <h2 class="py-1 font-bold text-lg">{{ $user->name }}</h2>
-                <h2 class="text-[16px]">Filsafat Komputer</h2>
+                <h1 class="text-[18px]">Selamat Pagi☀️</h1>
+                <h2 class="py-1 font-bold text-xl">{{ $user->name }}</h2>
+                <h2 class="text-[18px]">Filsafat Komputer 12 - A</h2>
             </div>
-                <img src="{{ Storage::disk('avatars')->url($user->avatar_url) }}" class="w-16 h-16 rounded-full object-cover border border-gray-100" alt="User Images" />
+                <img src="{{ Storage::disk('avatars')->url($user->avatar_url) }}" class="w-22 h-22 rounded-full object-cover border-3 border-amber-500" alt="User Images" />
         </div>
 
         <div class="relative bg-gradient-to-br from-white to-gray-100 text-black max-w-[380px] h-auto mx-auto -mt-7 p-4 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 justify-items-center">
