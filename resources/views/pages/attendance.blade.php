@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="images/2.png" type="image/png" sizes="16x16">
+    @vite('resources/css/app.css')
     <title>Attendance</title>
 </head>
 <body class="bg-gray-200">
@@ -20,14 +21,14 @@
             <div class="font-poppins">
                 <h1 class="text-[16px]">Selamat Pagi,</h1>
                 <h2 class="py-1 font-bold text-lg">{{ $user->name }}</h2>
-                <h2 class="text-[16px]">{{ $user->employe->position }}</h2>
+                <h2 class="text-[16px]">Filsafat Komputer</h2>
             </div>
-                <img src="{{ Storage::disk('karyawan')->url($user->avatar_url) }}" class="w-16 h-16 rounded-full object-cover border border-gray-100" alt="User Images" />
+                <img src="{{ Storage::disk('avatars')->url($user->avatar_url) }}" class="w-16 h-16 rounded-full object-cover border border-gray-100" alt="User Images" />
         </div>
 
         <div class="relative bg-gradient-to-br from-white to-gray-100 text-black max-w-[380px] h-auto mx-auto -mt-7 p-4 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 justify-items-center">
             <img src="{{ asset('images/iconabsen.png') }}" class="w-10 h-10 object-cover border border-gray-100" alt="icon absen" />
-            <h1 class="text-xl font-semibold text-center">Absen Masuk</h1>
+            <h1 class="text-xl font-semibold text-center">Absemsi Siswa</h1>
             <h2 class="text-lg text-center">
                 {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}
             </h2>
@@ -41,7 +42,7 @@
         @endif
 
         <!-- Form Absen Masuk -->
-        <form action="{{ route('absenmasuk.absenMasuk') }}" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="relative bg-gradient-to-br from-white to-gray-100 text-black max-w-[380px] h-auto mx-auto my-6 rounded-2xl shadow border border-gray-200 justify-items-center">
                 <img src="{{ asset('images/iconloc.png') }}" class="w-12 h-12 object-cover border border-gray-100 mt-2" alt="icon absen" />
