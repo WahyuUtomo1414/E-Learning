@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             DaySeed::class,
+            AttandanceSeeder::class,
         ]);
     }
 }
