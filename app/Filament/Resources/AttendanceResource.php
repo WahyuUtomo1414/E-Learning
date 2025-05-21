@@ -2,16 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AttendanceResource\Pages;
-use App\Filament\Resources\AttendanceResource\RelationManagers;
-use App\Models\Attendance;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use App\Models\Status;
+use Filament\Forms\Form;
+use App\Models\Attendance;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AttendanceResource\Pages;
+use App\Filament\Resources\AttendanceResource\RelationManagers;
 
 class AttendanceResource extends Resource
 {
@@ -25,29 +35,34 @@ class AttendanceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Select::make('user_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('latitude')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('longitude')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('foto')
+                    ->options(User::where('role_id', 3)->pluck('name', 'id'))
+                    ->searchable()
+                    ->label('Student')
+                    ->columnSpanFull(),
+                Section::make('Data Location')
+                    ->description('Ambil Dari Google Maps')
+                    ->schema([
+                        TextInput::make('latitude')
+                            ->required(),
+                        TextInput::make('longitude')
+                            ->required(),
+                    ])->columns(2),
+                FileUpload::make('foto')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('desc')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status_id')
+                    ->image()
+                    ->directory('Absensi')
+                    ->columnSpanFull(),
+                Textarea::make('desc')
+                    ->maxLength(255)
+                    ->label('Description')
+                    ->columnSpanFull(),
+                Select::make('status_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('created_by')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('deleted_by')
-                    ->numeric(),
+                    ->label('Status')
+                    ->options(Status::where('status_type_id', 2)->pluck('name', 'id'))
+                    ->searchable(),
             ]);
     }
 
@@ -55,33 +70,35 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                TextColumn::make('user.name')
+                    ->label('Student Name')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('latitude')
+                TextColumn::make('created_date')
+                    ->label('Date')
+                    ->getStateUsing(fn ($record) => \Carbon\Carbon::parse($record->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d M Y'))
+                    ->sortable(),
+                TextColumn::make('created_time')
+                    ->label('Time')
+                    ->getStateUsing(fn ($record) => \Carbon\Carbon::parse($record->created_at->setTimezone('Asia/Jakarta'))->format('H:i:s'))
+                    ->sortable(),
+                TextColumn::make('location')
+                    ->label('Location')
+                    ->icon('heroicon-o-map-pin')
+                    ->getStateUsing(fn($record) => 
+                        new HtmlString("<a href='https://www.google.com/maps?q={$record->latitude},{$record->longitude}' target='_blank' style='color: #3b82f6;'>Lihat Google Maps</a>"))
+                    ->html()
+                    ->color('info'),
+                ImageColumn::make('foto')
+                    ->label('Foto')
+                    ->disk('public'),
+                TextColumn::make('desc')
+                    ->label('Description')
+                    ->limit(50)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('longitude')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('desc')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status_id')
-                    ->numeric()
+                TextColumn::make('status.name')
+                    ->label('Status')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -95,6 +112,7 @@ class AttendanceResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

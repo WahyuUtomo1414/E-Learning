@@ -10,6 +10,7 @@ use App\Models\Teacher;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -98,12 +99,13 @@ class SchoolResource extends Resource
                 TextColumn::make('desc')
                     ->label('Description')
                     ->limit(50),
-                TextColumn::make('latitude')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('longitude')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('location')
+                    ->label('Location')
+                    ->icon('heroicon-o-map-pin')
+                    ->getStateUsing(fn($record) => 
+                        new HtmlString("<a href='https://www.google.com/maps?q={$record->latitude},{$record->longitude}' target='_blank' style='color: #3b82f6;'>Lihat Google Maps</a>"))
+                    ->html()
+                    ->color('info'),
                 TextColumn::make('school_start_time')
                     ->label('School Start Time'),
                 TextColumn::make('status.name')
@@ -132,6 +134,7 @@ class SchoolResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
