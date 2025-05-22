@@ -17,18 +17,29 @@
 
     <!-- Card Data User -->
     <div class="max-w-[420px] h-auto shadow-lg border-2 border-gray-200 rounded-lg bg-white mx-auto">
-        <div class="px-6 h-[220px] bg-gradient-to-r from-sky-900 to-sky-700 rounded-b-3xl text-white flex items-center justify-between border-b-8 border-amber-500">
-            <div class="font-poppins">
-                <h1 class="text-[18px]">Selamat Pagi☀️</h1>
-                <h2 class="py-1 font-bold text-xl">{{ $user->name }}</h2>
-                <h2 class="text-[18px]">Filsafat Komputer 12 - A</h2>
+        <div class="px-6 h-[250px] bg-gradient-to-r from-sky-900 to-sky-700 rounded-b-3xl text-white flex flex-col justify-between border-b-8 border-amber-500 py-7">
+            <!-- Logo dan Nama Sekolah -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <img src="{{ asset('images/2.png') }}" alt="Logo Sekolah" class="w-8 h-8 object-contain" />
+                    <div class="text-sm font-semibold">SMK PATRIOT NUSANTARA</div>
+                </div>
             </div>
-                <img src="{{ Storage::disk('avatars')->url($user->avatar_url) }}" class="w-22 h-22 rounded-full object-cover border-3 border-amber-500" alt="User Images" />
+
+            <!-- Selamat Pagi dan Profil -->
+            <div class="flex items-center justify-between pt-2">
+                <div class="font-poppins">
+                    <h1 class="text-[18px]">Selamat Pagi☀️</h1>
+                    <h2 class="py-1 font-bold text-xl">{{ $user->name }}</h2>
+                    <h2 class="text-[18px]">Filsafat Komputer 12 - A</h2>
+                </div>
+                <img src="{{ Storage::disk('avatars')->url($user->avatar_url) }}" class="w-20 h-20 rounded-full object-cover border-3 border-amber-500" alt="User Images" />
+            </div>
         </div>
 
-        <div class="relative bg-gradient-to-br from-white to-gray-100 text-black max-w-[380px] h-auto mx-auto -mt-7 p-4 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 justify-items-center">
+        <div class="relative bg-gradient-to-br from-white to-gray-100 text-black max-w-[380px] h-auto mx-auto -mt-6 p-4 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 justify-items-center">
             <img src="{{ asset('images/iconabsen.png') }}" class="w-10 h-10 object-cover border border-gray-100" alt="icon absen" />
-            <h1 class="text-xl font-semibold text-center">Absemsi Siswa</h1>
+            <h1 class="text-xl font-semibold text-center">Absensi Siswa</h1>
             <h2 class="text-lg text-center">
                 {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}
             </h2>
