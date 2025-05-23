@@ -17,12 +17,6 @@ class AttendanceController extends Controller
         return view('pages.attendance', compact('attendance'));
     }
 
-    public function user()
-    {
-        $user = Filament::auth()->user();
-        return view('pages.attendance', compact('user'));
-    }
-
     public function attendance(AttendanceRequest $request)
     {
         $data = $request->validated();
