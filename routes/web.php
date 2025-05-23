@@ -10,3 +10,7 @@ Route::get('/', function () {
 Route::get('/attendance', function () {
     return view('pages.attendance');
 });
+
+Route::get('/dummy', function () {
+    return view('pages.dummy');
+});
