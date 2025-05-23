@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="images/2.png" type="image/png" sizes="16x16">
-    @vite('resources/css/app.css')
-    <title>Attendance</title>
-</head>
-<body class="bg-gray-200">
-
+<x-layouts.base :title="'Attendance'">
     <!-- Card Data User -->
     <div class="max-w-[420px] h-auto shadow-lg border-2 border-gray-200 rounded-lg bg-white mx-auto">
         <div class="px-6 h-[250px] bg-gradient-to-r from-sky-900 to-sky-700 rounded-b-3xl text-white flex flex-col justify-between border-b-8 border-amber-500 py-7">
@@ -139,7 +128,7 @@
             </div>
         </form>        
     </div>
-</body>
+</x-layouts.base>
 <script>
     document.getElementById('getLocation').addEventListener('click', function() {
         if (navigator.geolocation) {
