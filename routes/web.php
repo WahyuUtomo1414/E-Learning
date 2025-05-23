@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +15,5 @@ Route::get('/attendance', function () {
 Route::get('/dummy', function () {
     return view('pages.dummy');
 });
+
+Route::get('/attendance', [AttendanceController::class, 'user'])->name('attendance');

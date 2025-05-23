@@ -10,11 +10,6 @@
 </head>
 <body class="bg-gray-200">
 
-    @php
-        use Filament\Facades\Filament;
-        $user = Filament::auth()->user();
-    @endphp
-
     <!-- Card Data User -->
     <div class="max-w-[420px] h-auto shadow-lg border-2 border-gray-200 rounded-lg bg-white mx-auto">
         <div class="px-6 h-[250px] bg-gradient-to-r from-sky-900 to-sky-700 rounded-b-3xl text-white flex flex-col justify-between border-b-8 border-amber-500 py-7">
