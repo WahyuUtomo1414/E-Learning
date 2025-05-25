@@ -15,3 +15,7 @@ Route::get('/attendance', function () {
 Route::get('/dummy', function () {
     return view('pages.dummy');
 });
+
+Route::get('/succes', function () {
+    return view('pages.succes');
+});
