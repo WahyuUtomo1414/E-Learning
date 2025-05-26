@@ -7,6 +7,19 @@
                 <img src="{{ asset('images/location.png') }}" alt="Ilustrasi absensi berhasil" class="w-full object-cover">
             </div>
 
+            {{--Tulisan Massage --}}
+            <div class="text-center font-inter mx-2 sm:mx-4"> 
+                <h1 class="text-2xl font-semibold py-2 text-sky-800" style="text-shadow: 1px 1px 2px #ffcccc;">
+                    Lokasi Tidak Sesuai
+                </h1>
+                <p class="text-sm px-2 mt-2">
+                    Maaf, <span class="font-semibold">{{ $user->name }}</span>. Absensi gagal karena lokasi anda di luar sekolah.
+                </p>
+                <p class="text-xs text-gray-600 mt-3">
+                    Pastikan anda berada di area sekolah. Jika masih bermasalah, hubungi <span class="font-semibold">[Admin / Wali Kelas].</span>
+                </p>
+            </div>
+
             
         </div>
 
