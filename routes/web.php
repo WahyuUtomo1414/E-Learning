@@ -19,3 +19,7 @@ Route::get('/dummy', function () {
 Route::get('/succes', function () {
     return view('pages.succes');
 });
+
+Route::get('/eror-location', function () {
+    return view('pages.error-location');
+});
