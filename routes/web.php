@@ -23,3 +23,7 @@ Route::get('/succes', function () {
 Route::get('/eror-location', function () {
     return view('pages.error-location');
 });
+
+Route::get('/eror-attendance', function () {
+    return view('pages.error-attendance');
+});
