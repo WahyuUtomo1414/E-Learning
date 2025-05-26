@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="images/2.png" type="image/png" sizes="16x16">
-    @vite('resources/css/app.css')
-    <title>Dummy</title>
-</head>
-<body class="bg-gray-200">
-
-    @php
-        use Filament\Facades\Filament;
-        $user = Filament::auth()->user();
-    @endphp
-    
+<x-layouts.base :title="'Dummy'">
     <div class="max-w-[420px] h-[800px] shadow-lg border-2 border-gray-200 rounded-lg bg-white mx-auto">
         <div class="px-6 h-[210px] bg-gradient-to-r from-sky-900 to-sky-700 text-white flex flex-col justify-between border-b-8 border-amber-500 py-7">
             <!-- Logo dan Nama Sekolah -->
@@ -43,4 +27,4 @@
             </h2>
         </div>   
     </div>
-</body>
+</x-layouts.base>
