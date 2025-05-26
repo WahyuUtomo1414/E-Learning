@@ -1,27 +1,30 @@
 <x-layouts.base :title="'succes'">
-    <div class="max-w-[420px] shadow-lg bg-gradient-to-bl from-white to-sky-100 mx-auto">
+    <div class="max-w-[420px] min-h-screen flex flex-col justify-center shadow-lg bg-gradient-to-bl from-white to-sky-100 mx-auto p-6">
         
-        <!-- buat ngatur tinggi -->
-        <div class="py-10"></div>
-
-        <!-- Ilustration -->
-        <div class="w-[300px] mx-auto flex justify-center pt-12">
-            <img src="{{ asset('images/succes2.png') }}" alt="succes" class="w-full object-cover">
-        </div>
-
-        <!-- Text Massage -->
-        <div class="text-center font-monospace mt-4 mx-4">
-            <h1 class="text-2xl font-semibold py-2 text-sky-800" style="text-shadow: 1px 1px 3px #b3c6ff;">Absensi Berhasil</h1>
-            <h3 class="text-sm px-2">Selamat pagi <span class="font-semibold">{{ $user->name }},</span> Data kehadiran Kamu telah dicatat. Silakan lanjutkan aktivitas pembelajaran.</h3>
-        </div>
-
-        <!-- Buttom Back -->
-        <a href="/admin/attendances">
-            <div class="flex justify-center items-center py-10 shadow-lg font-sans">
-                <button class="bg-sky-900 text-white p-2 py-2 rounded-lg hover:bg-sky-800 transition-all duration-200 text-[18px] font-semibold w-[340px]">
-                    Kembali
-                </button>
+        <div>
+            {{-- Gambar Ilustrasi--}}
+            <div class="w-[250px] sm:w-[300px] mx-auto mb-8"> 
+                <img src="{{ asset('images/succes2.png') }}" alt="Ilustrasi absensi berhasil" class="w-full object-cover">
             </div>
-        </a>
+
+            {{--Tulisan Massage --}}
+            <div class="text-center font-sans mx-2 sm:mx-4"> 
+                <h1 class="text-2xl font-semibold py-2 text-sky-800" style="text-shadow: 1px 1px 3px #b3c6ff;">Absensi Berhasil</h1>
+                <p class="text-sm px-2 mt-2">
+                    Selamat pagi <span class="font-semibold">{{ $user->name }}</span>, data kehadiran kamu telah dicatat. Silakan lanjutkan aktivitas pembelajaran.
+                </p>
+                {{-- Opsional: Tambah waktu absensi --}}
+                <p class="text-xs text-gray-600 mt-1">Dicatat pada: {{ now()->format('d M Y, H:i') }} WIB</p>
+            </div>
+
+            {{-- Tombol kembali --}}
+            <div class="mt-10 text-center"> 
+                <a href="/admin/attendances"
+                    class="inline-block bg-sky-900 text-white px-10 py-3 rounded-lg hover:bg-sky-800 transition-all duration-200 text-lg font-semibold font-sans shadow-md hover:shadow-lg">
+                    Kembali
+                </a>
+            </div>
+        </div>
+
     </div>
 </x-layouts.base>
