@@ -15,7 +15,8 @@
             <div class="flex items-center gap-4 py-2">
                 <img src="{{ Storage::disk('avatars')->url($user->avatar_url) }}" class="w-14 h-14 rounded-full object-cover border-3 border-white" alt="User" />
                 <div>
-                    <div class="font-semibold text-md">{{ $user->name }}</div>
+                    <div class="font-semibold text-sm">{{ $user->name }} • <span class="font-light text-gray-200">19210852</span></div>
+                    <!-- <div class="font-semibold text-sm">19210852</div> -->
                     <div class="text-sm text-gray-200">Filsafat Komputer 12 - A</div>
                 </div>
             </div>
