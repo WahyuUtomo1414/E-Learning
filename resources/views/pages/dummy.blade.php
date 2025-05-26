@@ -1,5 +1,5 @@
 <x-layouts.base :title="'Dummy'">
-    <div class="max-w-[430px] sm:max-w-[400px] h-[800px] shadow-lg bg-white mx-auto font-inter">
+    <div class="max-w-[430px] sm:max-w-[400px] h-auto shadow-lg bg-white mx-auto font-inter">
         
         <!-- Header -->
         <div class="px-6 h-auto rounded-b-3xl bg-gradient-to-bl from-sky-900 to-sky-700 text-white flex flex-col justify-between border-b-12 border-yellow-500 py-7">
@@ -61,5 +61,52 @@
                 {{-- Konten dinamis akan masuk di sini --}}
             </div>
         </div>
+
+        <!-- Card Verifikasi Lokasi -->
+        <div class="mx-auto my-4 p-6 flex flex-col items-center text-center">
+
+            {{-- Ikon Lokasi --}}
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="w-14 h-14 sm:w-16 sm:h-16 text-sky-800" {{-- Kelas dari img diterapkan di sini --}}
+                role="img" aria-labelledby="svgTitleIconLokasi">
+                <title id="svgTitleIconLokasi">Ikon Lokasi</title> {{-- Aksesibilitas pengganti alt text --}}
+                {{-- Bagian g id="SVGRepo_..." adalah bawaan dari sumber SVG, bisa dipertahankan atau dihapus jika tidak diperlukan --}}
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    {{-- Mengubah stroke="#275590" menjadi stroke="currentColor" agar warna bisa diatur oleh kelas text-sky-600 --}}
+                    <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </svg>
+
+            {{-- Judul dan Deskripsi --}}
+            <div class="flex flex-col gap-1 w-full px-2 py-3">
+                <h1 class="text-lg sm:text-xl font-semibold text-sky-800">Verifikasi Lokasi Anda</h1>
+                <p class="text-xs sm:text-sm text-slate-600">
+                    Kami perlu memastikan Anda berada di area sekolah. Mohon aktifkan GPS Anda.
+                </p>
+            </div>
+
+            {{-- Tombol Aksi & Indikator Loading --}}
+            <div class="w-full max-w-[280px]">
+                {{-- Tombol untuk mendapatkan lokasi --}}
+                <button type="button" id="getLocationButton"
+                        class="w-full bg-emerald-600 text-white px-6 py-2.5 rounded-lg 
+                            hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                            transition-all duration-300 ease-in-out text-sm font-semibold shadow-md hover:shadow-lg
+                            flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001zm.612-1.426a.75.75 0 01-.308-.066L10 17.433l-.304.002a.75.75 0 01-.308.066l.002.001a.752.752 0 01-.308.066l-.003-.001a18.71 18.71 0 01-4.965-2.165l-.002-.001a18.709 18.709 0 01-4.21-11.123l.001-.002c0-3.517 2.748-6.437 6.437-6.437l.002.001h4.054l.002-.001c3.689 0 6.437 2.92 6.437 6.437l.001.002a18.71 18.71 0 01-4.21 11.123l-.002.001a18.71 18.71 0 01-4.965 2.165zM10 15c2.049 0 4.137-.963 5.566-2.748a.75.75 0 011.061 1.063A11.2 11.2 0 0110 16.5a11.2 11.2 0 01-6.627-3.185.75.75 0 111.06-1.063A9.7 9.7 0 0010 15zm0-3.75a.75.75 0 01.75.75v.008c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-.008a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+                    </svg>
+                    <span id="getLocationButtonText">Dapatkan Lokasi Saya</span>
+                    <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
     </div>
 </x-layouts.base>
