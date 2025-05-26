@@ -92,18 +92,18 @@
             <div class="w-full max-w-[280px]">
                 {{-- Tombol untuk mendapatkan lokasi --}}
                 <button type="button" id="getLocationButton"
-                        class="w-full bg-emerald-600 text-white px-6 py-2.5 rounded-lg 
-                            hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                        class="w-full bg-sky-800 text-white px-6 py-2.5 rounded-lg 
+                            hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
                             transition-all duration-300 ease-in-out text-sm font-semibold shadow-md hover:shadow-lg
                             flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                    <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001zm.612-1.426a.75.75 0 01-.308-.066L10 17.433l-.304.002a.75.75 0 01-.308.066l.002.001a.752.752 0 01-.308.066l-.003-.001a18.71 18.71 0 01-4.965-2.165l-.002-.001a18.709 18.709 0 01-4.21-11.123l.001-.002c0-3.517 2.748-6.437 6.437-6.437l.002.001h4.054l.002-.001c3.689 0 6.437 2.92 6.437 6.437l.001.002a18.71 18.71 0 01-4.21 11.123l-.002.001a18.71 18.71 0 01-4.965 2.165zM10 15c2.049 0 4.137-.963 5.566-2.748a.75.75 0 011.061 1.063A11.2 11.2 0 0110 16.5a11.2 11.2 0 01-6.627-3.185.75.75 0 111.06-1.063A9.7 9.7 0 0010 15zm0-3.75a.75.75 0 01.75.75v.008c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-.008a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001zm.612-1.426a.75.75 0 01-.308-.066L10 17.433l-.304.002a.75.75 0 01-.308.066l.002.001a.752.752 0 01-.308.066l-.003-.001a18.71 18.71 0 01-4.965-2.165l-.002-.001a18.709 18.709 0 01-4.21-11.123l.001-.002c0-3.517 2.748-6.437 6.437-6.437l.002.001h4.054l.002-.001c3.689 0 6.437 2.92 6.437 6.437l.001.002a18.71 18.71 0 01-4.21 11.123l-.002.001a18.71 18.71 0 01-4.965 2.165zM10 15c2.049 0 4.137-.963 5.566-2.748a.75.75 0 011.061 1.063A11.2 11.2 0 0110 16.5a11.2 11.2 0 01-6.627-3.185.75.75 0 111.06-1.063A9.7 9.7 0 0010 15zm0-3.75a.75.75 0 01.75.75v.008c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-.008a.75.75 0 01.75-.75z" clip-rule="evenodd" />
                     </svg>
-                    <span id="getLocationButtonText">Dapatkan Lokasi Saya</span>
-                    <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <span id="getLocationButtonText">Dapatkan Lokasi</span>
+                        <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
                 </button>
             </div>
         </div>
@@ -120,8 +120,8 @@
                     <video id="video" class="w-full h-full object-cover" autoplay playsinline muted></video>
                 </div>
                 
-                <button type="button" id="captureButton" class="mt-4 w-full max-w-xs bg-emerald-600 text-white px-6 py-3 rounded-lg 
-                                hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                <button type="button" id="captureButton" class="mt-4 w-full max-w-xs bg-sky-800 text-white px-6 py-3 rounded-lg 
+                                hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
                                 transition-all duration-300 ease-in-out text-base font-semibold shadow-md hover:shadow-lg
                                 flex items-center justify-center gap-2">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"> {{-- Stroke diatur ke currentColor dan warna dari text-white button --}}
