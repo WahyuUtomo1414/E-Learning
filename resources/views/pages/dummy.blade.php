@@ -108,5 +108,157 @@
             </div>
         </div>
 
+        <!-- form kamera -->
+        <div class="w-full max-w-md h-auto mx-auto my-2">
+            <div class="p-6 flex flex-col items-center gap-4">
+                <label for="camera" class="block text-xl font-semibold text-sky-800 text-center">
+                    Ambil Foto Kehadiran
+                </label>
+                
+                {{-- Video Element untuk Kamera --}}
+                <div class="w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-md mx-auto">
+                    <video id="video" class="w-full h-full object-cover" autoplay playsinline muted></video>
+                </div>
+                
+                <button type="button" id="captureButton" class="mt-4 w-full max-w-xs bg-emerald-600 text-white px-6 py-3 rounded-lg 
+                                hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                                transition-all duration-300 ease-in-out text-base font-semibold shadow-md hover:shadow-lg
+                                flex items-center justify-center gap-2">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"> {{-- Stroke diatur ke currentColor dan warna dari text-white button --}}
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> 
+                                <path d="M12 16C13.6569 16 15 14.6569 15 13C15 11.3431 13.6569 10 12 10C10.3431 10 9 11.3431 9 13C9 14.6569 10.3431 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                <path d="M3 16.8V9.2C3 8.0799 3 7.51984 3.21799 7.09202C3.40973 6.71569 3.71569 6.40973 4.09202 6.21799C4.51984 6 5.0799 6 6.2 6H7.25464C7.37758 6 7.43905 6 7.49576 5.9935C7.79166 5.95961 8.05705 5.79559 8.21969 5.54609C8.25086 5.49827 8.27836 5.44328 8.33333 5.33333C8.44329 5.11342 8.49827 5.00346 8.56062 4.90782C8.8859 4.40882 9.41668 4.08078 10.0085 4.01299C10.1219 4 10.2448 4 10.4907 4H13.5093C13.7552 4 13.8781 4 13.9915 4.01299C14.5833 4.08078 15.1141 4.40882 15.4394 4.90782C15.5017 5.00345 15.5567 5.11345 15.6667 5.33333C15.7216 5.44329 15.7491 5.49827 15.7803 5.54609C15.943 5.79559 16.2083 5.95961 16.5042 5.9935C16.561 6 16.6224 6 16.7454 6H17.8C18.9201 6 19.4802 6 19.908 6.21799C20.2843 6.40973 20.5903 6.71569 20.782 7.09202C21 7.51984 21 8.0799 21 9.2V16.8C21 17.9201 21 18.4802 20.782 18.908C20.5903 19.2843 20.2843 19.5903 19.908 19.782C19.4802 20 18.9201 20 17.8 20H6.2C5.0799 20 4.51984 20 4.09202 19.782C3.71569 19.5903 3.40973 19.2843 3.21799 18.908C3 18.4802 3 17.9201 3 16.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                            </g>
+                        </svg>
+                    Ambil Foto
+                </button>
+
+                <!-- Canvas untuk menyimpan gambar -->
+                <canvas id="canvas" class="hidden"></canvas>
+                <img  
+                    id="photoPreview" 
+                    class="mt-4 hidden w-full max-w-xs border-2 border-sky-300 rounded-lg shadow-md" 
+                    alt="Hasil Foto">
+
+                <input type="hidden" name="foto_absensi" id="fotoInput">
+
+                {{-- Notifikasi Error Akses Kamera --}}
+                <div id="cameraErrorNotification" class="hidden mt-4 p-3 w-full max-w-xs bg-red-100 text-red-700 text-sm rounded-md text-center">
+                    Gagal mengakses kamera. Pastikan Anda telah memberikan izin.
+                </div>
+            </div>
+        </div>
+
+        {{-- Keterangan Text Area --}}
+        <div class="w-full px-4 mt-4 flex flex-col justify-center items-center">
+            {{-- Judul Keterangan --}}
+            <label for="desc" class="block text-xl font-semibold text-sky-800 text-center py-2 w-full">
+            Keterangan (Opsional)
+            </label>
+            <textarea 
+            name="desc" 
+            id="desc" 
+            rows="3" 
+            class="block p-2.5 w-full text-sm text-slate-900 bg-slate-50 rounded-lg border border-slate-700 focus:ring-sky-700 focus:border-sky-500 placeholder-slate-400"
+            placeholder="Misalnya: Izin terlambat karena...">{{ old('desc') }}</textarea>
+        </div>
+
+        {{-- Tombol Submit Form (Contoh) --}}
+        <div class="flex justify-center items-center my-6">
+            <button 
+                type="submit" 
+                class="w-[300px] max-w-xs bg-sky-800 text-white px-6 py-3 rounded-lg 
+                                hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
+                                transition-all duration-300 ease-in-out text-base font-semibold shadow-md hover:shadow-lg">
+                Kirim Absensi
+            </button>
+        </div>
+        <div class="py-2"></div>
     </div>
+
+    <script>
+        // Mendapatkan akses kamera device
+        const videoElement = document.getElementById('video');
+        const canvasElement = document.getElementById('canvas');
+        const photoPreviewElement = document.getElementById('photoPreview');
+        const captureButtonElement = document.getElementById('captureButton');
+        const fotoInputElement = document.getElementById('fotoInput');
+        const cameraErrorNotificationElement = document.getElementById('cameraErrorNotification');
+
+        // Preferensi resolusi (mendekati Full HD 1920x1080)
+        const videoConstraints = {
+            video: {
+                facingMode: "environment", // Menggunakan kamera belakang jika tersedia
+                width: { ideal: 1080 },
+                height: { ideal: 1920 },
+                // Anda bisa juga menambahkan aspectRatio jika ingin lebih spesifik
+                // aspectRatio: { ideal: 16/9 } 
+            }
+        };
+
+        let streamInstance = null; // Untuk menyimpan instance stream
+
+        // Fungsi untuk memulai kamera
+        async function startCamera() {
+            try {
+                // Hentikan stream sebelumnya jika ada (misalnya saat ganti kamera atau retry)
+                if (streamInstance) {
+                    streamInstance.getTracks().forEach(track => track.stop());
+                }
+                cameraErrorNotificationElement.classList.add('hidden'); // Sembunyikan notif error lama
+
+                streamInstance = await navigator.mediaDevices.getUserMedia(videoConstraints);
+                videoElement.srcObject = streamInstance;
+                videoElement.onloadedmetadata = () => {
+                    // Video siap, tombol bisa diaktifkan (jika sebelumnya dinonaktifkan)
+                    captureButtonElement.disabled = false; 
+                    console.log('Kamera dimulai dengan resolusi:', videoElement.videoWidth, 'x', videoElement.videoHeight);
+                };
+            } catch (error) {
+                console.error("Error accessing the camera:", error);
+                cameraErrorNotificationElement.textContent = `Error: ${error.name} - ${error.message}. Pastikan izin kamera diberikan.`;
+                cameraErrorNotificationElement.classList.remove('hidden');
+                captureButtonElement.disabled = true; // Nonaktifkan tombol jika kamera error
+            }
+        }
+
+        // Fungsi untuk mengambil foto dari video dan menampilkannya
+        captureButtonElement.addEventListener('click', function() {
+            if (!streamInstance || !videoElement.srcObject) {
+                console.warn("Stream kamera tidak aktif.");
+                alert("Kamera tidak aktif. Silakan coba lagi atau periksa izin kamera.");
+                return;
+            }
+
+            // Menyusun gambar di canvas sesuai dengan resolusi aktual video stream
+            // Ini penting agar gambar tidak terdistorsi atau kosong
+            canvasElement.width = videoElement.videoWidth;
+            canvasElement.height = videoElement.videoHeight;
+            
+            const context = canvasElement.getContext('2d');
+            context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+            // Menampilkan gambar di tag <img>
+            const dataURL = canvasElement.toDataURL('image/jpeg', 0.9); // Gunakan image/jpeg untuk ukuran file lebih kecil, 0.9 kualitas
+            photoPreviewElement.src = dataURL;
+            photoPreviewElement.classList.remove('hidden');
+            // videoElement.classList.add('hidden'); // Opsional: sembunyikan video setelah foto diambil
+
+            // Menyimpan data URL ke input foto
+            fotoInputElement.value = dataURL;
+
+            // Opsional: Hentikan stream kamera setelah foto diambil untuk menghemat baterai
+            // if (streamInstance) {
+            //     streamInstance.getTracks().forEach(track => track.stop());
+            //     videoElement.srcObject = null; // Kosongkan srcObject
+            //     console.log("Kamera dihentikan setelah mengambil foto.");
+            // }
+        });
+
+        // Memulai kamera saat halaman dimuat
+        startCamera();
+
+    </script>
 </x-layouts.base>
