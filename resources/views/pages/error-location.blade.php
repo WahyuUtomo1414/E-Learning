@@ -20,7 +20,13 @@
                 </p>
             </div>
 
-            
+            {{-- Tombol kembali --}}
+            <div class="mt-10 text-center"> 
+                <a href="/admin/attendances"
+                    class="inline-block bg-sky-900 text-white px-10 py-3 rounded-lg hover:bg-sky-800 transition-all duration-200 text-lg font-semibold font-inter shadow-md hover:shadow-lg">
+                    Kembali
+                </a>
+            </div>
         </div>
 
     </div>
