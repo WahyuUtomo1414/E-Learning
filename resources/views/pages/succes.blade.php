@@ -8,10 +8,10 @@
             </div>
 
             {{--Tulisan Massage --}}
-            <div class="text-center font-sans mx-2 sm:mx-4"> 
+            <div class="text-center font-inter mx-2 sm:mx-4"> 
                 <h1 class="text-2xl font-semibold py-2 text-sky-800" style="text-shadow: 1px 1px 3px #b3c6ff;">Absensi Berhasil</h1>
                 <p class="text-sm px-2 mt-2">
-                    Selamat pagi <span class="font-semibold">{{ $user->name }}</span>, data kehadiran kamu telah dicatat. Silakan lanjutkan aktivitas pembelajaran.
+                    Selamat pagi <span class="font-semibold font-inter">{{ $user->name }}</span>, data kehadiran kamu telah dicatat. Silakan lanjutkan aktivitas pembelajaran.
                 </p>
                 {{-- Opsional: Tambah waktu absensi --}}
                 <p class="text-xs text-gray-600 mt-1">Dicatat pada: {{ now()->format('d M Y, H:i') }} WIB</p>
@@ -20,7 +20,7 @@
             {{-- Tombol kembali --}}
             <div class="mt-10 text-center"> 
                 <a href="/admin/attendances"
-                    class="inline-block bg-sky-900 text-white px-10 py-3 rounded-lg hover:bg-sky-800 transition-all duration-200 text-lg font-semibold font-sans shadow-md hover:shadow-lg">
+                    class="inline-block bg-sky-900 text-white px-10 py-3 rounded-lg hover:bg-sky-800 transition-all duration-200 text-lg font-semibold font-inter shadow-md hover:shadow-lg">
                     Kembali
                 </a>
             </div>
