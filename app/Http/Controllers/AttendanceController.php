@@ -31,17 +31,33 @@ class AttendanceController extends Controller
             $attendance->longitude = $data['longitude'];
             $attendance->foto = $data['foto'];
             $attendance->desc = $data['desc'];
-            $attendance->status_id = $data['status_id'];
+            $attendance->status_id = 1;
+
+            // Cek apakah user sudah absen hari ini
+            // $attendance = Attendance::where('user_id', $request->user_id)
+            //     ->whereDate('create_at', now()->toDateString())
+            //     ->first();
+
+            // if (!$attendance) {
+            //     return redirect('/admin/attendances')->back()->with('error', 'Anda sudah melakukan absen masuk hari ini!');
+            // }
+
+            // // Cek apakah absen terlambat atau tidak
+            // $schoolStartTime = $user->school_id->school_start_time ?? '07:00:00';
+            // $currentTime = now()->format('H:i:s');
+
+            // if ($currentTime > $schoolStartTime) {
+            //     $attendance->status_id = 5;
+            // }
+
             $attendance->save();
-            
             DB::commit();
 
+        return response()->redirectTo('/succes')->with('success', 'Absensi Berhasil Dilakukan');
 
         } catch (Exception $e) {
-            return response()->json([
-                    'message' => 'Terjadi Kesalahan',
-                    'massage' => $e->getMessage(),
-                ], 500);
+            return response()->redirectTo('/eror-attendance')
+                ->with('error', 'Absensi Gagal Dilakukan: ' . $e->getMessage());
         }
     }
 }
