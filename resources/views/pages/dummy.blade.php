@@ -65,6 +65,11 @@
 
         <form action="{{ route('attendance') }}" method="POST" enctype="multipart/form-data">
         @csrf
+            {{-- hidden input Lokasi --}}
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+
+
             <!-- Card Verifikasi Lokasi -->
             <div class="mx-auto my-4 p-6 flex flex-col items-center text-center">
 
@@ -179,9 +184,34 @@
                 </button>
             </div>
             <div class="py-2"></div>
-        </div>
+        </form>
+    </div>
 
     <script>
+        // Mendapatkan lokasi pengguna
+        document.getElementById("getLocationButton").addEventListener("click", function () {
+            const loading = document.getElementById("loadingSpinner");
+            const text = document.getElementById("getLocationButtonText");
+
+            loading.classList.remove("hidden");
+            text.textContent = "Mendapatkan lokasi...";
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    document.getElementById("latitude").value = position.coords.latitude;
+                    document.getElementById("longitude").value = position.coords.longitude;
+
+                    text.textContent = "Lokasi Didapat!";
+                    loading.classList.add("hidden");
+                },
+                function (error) {
+                    alert("Gagal mendapatkan lokasi: " + error.message);
+                    text.textContent = "Dapatkan Lokasi";
+                    loading.classList.add("hidden");
+                }
+            );
+        });
+
         // Mendapatkan akses kamera device
         const videoElement = document.getElementById('video');
         const canvasElement = document.getElementById('canvas');
