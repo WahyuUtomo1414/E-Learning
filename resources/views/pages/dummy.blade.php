@@ -66,9 +66,28 @@
         <form action="{{ route('attendance') }}" method="POST" enctype="multipart/form-data">
         @csrf
             {{-- hidden input Lokasi --}}
-            <input type="hidden" name="latitude" id="latitude">
-            <input type="hidden" name="longitude" id="longitude">
+            <!-- Input Data User -->
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
+            @error('user_id')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
 
+            <!-- Input Data Lokasi -->
+            <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude') }}">
+            @error('latitude')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+        
+            <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude') }}">
+            @error('longitude')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+
+            <!-- Input Data Foto -->
+            <input type="hidden" name="foto" id="fotoInput" value="{{ old('fotoInput') }}">
+            @error('fotoInput')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
 
             <!-- Card Verifikasi Lokasi -->
             <div class="mx-auto my-4 p-6 flex flex-col items-center text-center">
@@ -183,115 +202,10 @@
                     Kirim Absensi
                 </button>
             </div>
-            <div class="py-2"></div>
+            <div class="py-2"></div>   
         </form>
     </div>
-
-    <script>
-        // Mendapatkan lokasi pengguna
-        document.getElementById("getLocationButton").addEventListener("click", function () {
-            const loading = document.getElementById("loadingSpinner");
-            const text = document.getElementById("getLocationButtonText");
-
-            loading.classList.remove("hidden");
-            text.textContent = "Mendapatkan lokasi...";
-
-            navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    document.getElementById("latitude").value = position.coords.latitude;
-                    document.getElementById("longitude").value = position.coords.longitude;
-
-                    text.textContent = "Lokasi Didapat!";
-                    loading.classList.add("hidden");
-                },
-                function (error) {
-                    alert("Gagal mendapatkan lokasi: " + error.message);
-                    text.textContent = "Dapatkan Lokasi";
-                    loading.classList.add("hidden");
-                }
-            );
-        });
-
-        // Mendapatkan akses kamera device
-        const videoElement = document.getElementById('video');
-        const canvasElement = document.getElementById('canvas');
-        const photoPreviewElement = document.getElementById('photoPreview');
-        const captureButtonElement = document.getElementById('captureButton');
-        const fotoInputElement = document.getElementById('fotoInput');
-        const cameraErrorNotificationElement = document.getElementById('cameraErrorNotification');
-
-        // Preferensi resolusi (mendekati Full HD 1920x1080)
-        const videoConstraints = {
-            video: {
-                facingMode: "environment", // Menggunakan kamera belakang jika tersedia
-                width: { ideal: 1080 },
-                height: { ideal: 1920 },
-                // Anda bisa juga menambahkan aspectRatio jika ingin lebih spesifik
-                // aspectRatio: { ideal: 16/9 } 
-            }
-        };
-
-        let streamInstance = null; // Untuk menyimpan instance stream
-
-        // Fungsi untuk memulai kamera
-        async function startCamera() {
-            try {
-                // Hentikan stream sebelumnya jika ada (misalnya saat ganti kamera atau retry)
-                if (streamInstance) {
-                    streamInstance.getTracks().forEach(track => track.stop());
-                }
-                cameraErrorNotificationElement.classList.add('hidden'); // Sembunyikan notif error lama
-
-                streamInstance = await navigator.mediaDevices.getUserMedia(videoConstraints);
-                videoElement.srcObject = streamInstance;
-                videoElement.onloadedmetadata = () => {
-                    // Video siap, tombol bisa diaktifkan (jika sebelumnya dinonaktifkan)
-                    captureButtonElement.disabled = false; 
-                    console.log('Kamera dimulai dengan resolusi:', videoElement.videoWidth, 'x', videoElement.videoHeight);
-                };
-            } catch (error) {
-                console.error("Error accessing the camera:", error);
-                cameraErrorNotificationElement.textContent = `Error: ${error.name} - ${error.message}. Pastikan izin kamera diberikan.`;
-                cameraErrorNotificationElement.classList.remove('hidden');
-                captureButtonElement.disabled = true; // Nonaktifkan tombol jika kamera error
-            }
-        }
-
-        // Fungsi untuk mengambil foto dari video dan menampilkannya
-        captureButtonElement.addEventListener('click', function() {
-            if (!streamInstance || !videoElement.srcObject) {
-                console.warn("Stream kamera tidak aktif.");
-                alert("Kamera tidak aktif. Silakan coba lagi atau periksa izin kamera.");
-                return;
-            }
-
-            // Menyusun gambar di canvas sesuai dengan resolusi aktual video stream
-            // Ini penting agar gambar tidak terdistorsi atau kosong
-            canvasElement.width = videoElement.videoWidth;
-            canvasElement.height = videoElement.videoHeight;
-            
-            const context = canvasElement.getContext('2d');
-            context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-
-            // Menampilkan gambar di tag <img>
-            const dataURL = canvasElement.toDataURL('image/jpeg', 0.9); // Gunakan image/jpeg untuk ukuran file lebih kecil, 0.9 kualitas
-            photoPreviewElement.src = dataURL;
-            photoPreviewElement.classList.remove('hidden');
-            // videoElement.classList.add('hidden'); // Opsional: sembunyikan video setelah foto diambil
-
-            // Menyimpan data URL ke input foto
-            fotoInputElement.value = dataURL;
-
-            // Opsional: Hentikan stream kamera setelah foto diambil untuk menghemat baterai
-            // if (streamInstance) {
-            //     streamInstance.getTracks().forEach(track => track.stop());
-            //     videoElement.srcObject = null; // Kosongkan srcObject
-            //     console.log("Kamera dihentikan setelah mengambil foto.");
-            // }
-        });
-
-        // Memulai kamera saat halaman dimuat
-        startCamera();
-
-    </script>
+    @section('scripts')
+        <script src="{{ asset('js/absensi.js') }}"></script>
+    @endsection
 </x-layouts.base>
