@@ -27,3 +27,6 @@ Route::get('/eror-location', function () {
 Route::get('/eror-attendance', function () {
     return view('pages.error-attendance');
 });
+
+// route untuk absen
+Route::post('/dummy', [AttendanceController::class, 'attendance'])->name('attendance');

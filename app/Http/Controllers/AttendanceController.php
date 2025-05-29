@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\AttendanceRequest;
 
 class AttendanceController extends Controller
@@ -22,6 +23,13 @@ class AttendanceController extends Controller
         $data = $request->validated();
         $user = Filament::auth()->user();
 
+         // Simpan gambar base64
+        $image = $request->input('foto');
+        $image = str_replace('data:image/png;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = 'absen_' . $user->name . time() . '.png';
+        Storage::disk('public')->put("absensi/{$imageName}", base64_decode($image));
+
         DB::beginTransaction();
 
         try {
@@ -29,7 +37,7 @@ class AttendanceController extends Controller
             $attendance->user_id = $user->id;
             $attendance->latitude = $data['latitude'];
             $attendance->longitude = $data['longitude'];
-            $attendance->foto = $data['foto'];
+            $attendance->foto = $imageName;
             $attendance->desc = $data['desc'];
             $attendance->status_id = 1;
 
