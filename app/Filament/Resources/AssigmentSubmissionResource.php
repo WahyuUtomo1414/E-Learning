@@ -52,7 +52,7 @@ class AssigmentSubmissionResource extends Resource
                     ->label('Status')
                     ->searchable()
                     ->default(1)
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->options(Status::where('status_type,id', 1)->pluck('name', 'id')),
             ]);
     }
 

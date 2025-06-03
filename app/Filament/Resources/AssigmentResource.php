@@ -62,7 +62,8 @@ class AssigmentResource extends Resource
                     ->required()
                     ->label('Status')
                     ->searchable()
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->default(1)
+                    ->options(Status::where('status_type,id', 1)->pluck('name', 'id')),
             ]);
     }
 
