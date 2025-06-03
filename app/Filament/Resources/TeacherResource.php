@@ -38,7 +38,7 @@ class TeacherResource extends Resource
             ->schema([
                 Select::make('user_id')
                     ->required()
-                    ->options(User::all()->pluck('name', 'id'))
+                    ->options(User::where('role_id', 2)->pluck('name', 'id'))
                     ->label('User')
                     ->searchable(),
                 TextInput::make('techer_number')
@@ -47,7 +47,7 @@ class TeacherResource extends Resource
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->options(Status::where('status_type_id', 1)->pluck('name', 'id')),
             ]);
     }
 
