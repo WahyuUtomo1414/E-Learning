@@ -33,7 +33,7 @@ class StudentResource extends Resource
             ->schema([
                 Select::make('user_id')
                     ->required()
-                    ->options(fn () => User::all()->pluck('name', 'id'))
+                    ->options(fn () => User::where('role_Id', 3)->pluck('name', 'id'))
                     ->label('User')
                     ->searchable(),
                 TextInput::make('student_number')
@@ -42,7 +42,7 @@ class StudentResource extends Resource
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->options(Status::where('status_type_id', 1)->pluck('name', 'id')),
             ]);
     }
 
