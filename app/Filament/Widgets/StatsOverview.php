@@ -21,16 +21,18 @@ class StatsOverview extends BaseWidget
         $jam = Carbon::now('Asia/Jakarta')->translatedFormat('H:i:s');
         $user = auth()->user();
 
-        return [
-            Stat::make('Date', $tanggal)
+        if ($user->role_id === 3) {
+            $stats[] = Stat::make('Date', $tanggal)
                 ->color('success')
                 ->icon('heroicon-s-calendar')
-                ->chart([7, 2, 10, 3, 15, 4, 17]),
-            Stat::make('Have A Good Day', $jam)
+                ->chart([7, 2, 10, 3, 15, 4, 17]);
+
+            $stats[] = Stat::make('Have A Good Day', $jam)
                 ->color('success')
                 ->icon('heroicon-s-bell-alert')
-                ->chart([7, 2, 10, 3, 15, 4, 17]),
-            Stat::make('', 'Attendance')
+                ->chart([7, 2, 10, 3, 15, 4, 17]);
+
+            $stats[] = Stat::make('', 'Attendance')
                 ->description('Click to Attendance')
                 ->descriptionIcon('heroicon-m-arrows-pointing-in', IconPosition::Before)
                 ->extraAttributes([
@@ -39,22 +41,31 @@ class StatsOverview extends BaseWidget
                     'style' => 'background-color: #7AE2CF; color: #077A7D;'
                 ])
                 ->color('white')
-                ->chart([7, 2, 10, 3, 15, 4, 17]),
-            Stat::make('Student Count', '242')
+                ->chart([7, 2, 10, 3, 15, 4, 17]);
+        }
+
+
+        if ($user->role_id != 3) {
+            $stats[] = Stat::make('Student Count', $studentCount)
                 ->description('Student')
                 ->descriptionIcon('heroicon-m-academic-cap')
                 ->chart([2, 3, 35, 18, 15, 26, 15, 30, 25, 30, 25, 50])
-                ->color('success'),
-            Stat::make('Teacher Count', '23')
+                ->color('success');
+
+            $stats[] = Stat::make('Teacher Count', $teacherCount)
                 ->description('Teacher')
                 ->descriptionIcon('heroicon-m-briefcase')
                 ->chart([32, 23, 35, 18, 15, 56, 15, 30, 25, 30, 25, 30])
-                ->color('warning'),
-            Stat::make('Class Count', '17')
+                ->color('warning');
+
+            $stats[] = Stat::make('Class Count', $classCount)
                 ->description('Class')
                 ->descriptionIcon('heroicon-m-home')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
-                ->color('info'),
-        ];
+                ->color('info');
+        }
+
+        return $stats;
+
     }
 }
