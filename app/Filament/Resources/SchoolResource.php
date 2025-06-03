@@ -62,12 +62,8 @@ class SchoolResource extends Resource
                 Section::make('Data Location')
                     ->description('Ambil Dari Google Maps')
                     ->schema([
-                        TextInput::make('latitude')
-                            ->numeric()
-                            ->rules(['numeric']),
-                        TextInput::make('longitude')
-                            ->numeric()
-                            ->rules(['numeric']),
+                        TextInput::make('latitude'),
+                        TextInput::make('longitude'),
                     ])->columns(2),
                 TimePicker::make('school_start_time')
                     ->label('School Start Time')
@@ -76,7 +72,7 @@ class SchoolResource extends Resource
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->options(Status::where('status_type_Id', 1)->pluck('name', 'id')),
             ]);
     }
 
