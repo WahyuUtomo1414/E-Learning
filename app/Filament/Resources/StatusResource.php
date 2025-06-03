@@ -27,7 +27,7 @@ class StatusResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-check-circle';
 
-    protected static ?string $navigationGroup = 'Manajemen Status';
+    protected static ?string $navigationGroup = 'Status Management';
 
     public static function form(Form $form): Form
     {

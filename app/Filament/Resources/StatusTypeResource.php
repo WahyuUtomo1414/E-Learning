@@ -24,7 +24,7 @@ class StatusTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
-    protected static ?string $navigationGroup = 'Manajemen Status';
+    protected static ?string $navigationGroup = 'Status Management';
 
     public static function form(Form $form): Form
     {
