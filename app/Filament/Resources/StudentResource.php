@@ -65,8 +65,14 @@ class StudentResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('user.phone_number')
-                    ->label('Phone Number')
-                    ->sortable()
+                    ->label('WhatsApp / Phone Number')
+                    ->formatStateUsing(function ($state) {
+                        // Ubah 08xxxx menjadi 628xxxx
+                        return preg_replace('/^0/', '62', $state);
+                    })
+                    ->url(fn ($state) => 'https://wa.me/' . preg_replace('/^0/', '62', $state), true)
+                    ->color('info')
+                    ->openUrlInNewTab()
                     ->searchable(),
                 TextColumn::make('status.name')
                     ->sortable(),
