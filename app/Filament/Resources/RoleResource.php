@@ -41,7 +41,7 @@ class RoleResource extends Resource
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->options(Status::where('status_type_id', 1)->pluck('name', 'id')),
             ]);
     }
 
