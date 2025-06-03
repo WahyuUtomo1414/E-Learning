@@ -29,7 +29,7 @@ class AssigmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
 
-    protected static ?string $navigationGroup = 'Manajemen Tugas';
+    protected static ?string $navigationGroup = 'Assigment Management';
 
     public static function form(Form $form): Form
     {
