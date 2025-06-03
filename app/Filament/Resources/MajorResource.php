@@ -43,7 +43,7 @@ class MajorResource extends Resource
                     ->required()
                     ->label('Status')
                     ->searchable()
-                    ->options(Status::all()->pluck('name', 'id')),
+                    ->options(Status::where('status_type_id', 1)->pluck('name', 'id')),
             ]);
     }
 
