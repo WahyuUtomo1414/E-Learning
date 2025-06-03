@@ -28,7 +28,7 @@ class GuardianStudentResource extends Resource
 
     //protected static ?string $pluralModelLabel = 'Wali Murid';
 
-    protected static ?string $navigationGroup = 'Manajemen Pelajar';
+    protected static ?string $navigationGroup = 'Student Management';
 
     public static function form(Form $form): Form
     {
