@@ -30,7 +30,7 @@ class TeacherResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
-    protected static ?string $navigationGroup = 'Manajemen Sekolah';
+    protected static ?string $navigationGroup = 'School Management';
 
     public static function form(Form $form): Form
     {

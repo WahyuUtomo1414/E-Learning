@@ -36,7 +36,7 @@ class ClassroomResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Class';
 
-    protected static ?string $navigationGroup = 'Manajemen Sekolah';
+    protected static ?string $navigationGroup = 'School Management';
 
     public static function form(Form $form): Form
     {

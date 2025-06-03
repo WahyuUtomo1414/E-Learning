@@ -24,7 +24,7 @@ class MajorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bookmark';
 
-    protected static ?string $navigationGroup = 'Manajemen Sekolah';
+    protected static ?string $navigationGroup = 'School Management';
 
     public static function form(Form $form): Form
     {
