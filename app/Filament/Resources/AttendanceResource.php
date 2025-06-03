@@ -29,7 +29,7 @@ class AttendanceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
-    protected static ?string $navigationGroup = 'Manajemen Absensi';
+    protected static ?string $navigationGroup = 'Attendance Management';
 
     public static function form(Form $form): Form
     {
