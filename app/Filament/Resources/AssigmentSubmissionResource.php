@@ -27,6 +27,8 @@ class AssigmentSubmissionResource extends Resource
     
     protected static ?string $navigationGroup = 'Assigment Management';
 
+    protected static ?string $navigationLabel = 'Assigment Submission';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -32,6 +32,8 @@ class CourseResource extends Resource
 
     protected static ?string $navigationGroup = 'School Management';
 
+    protected static ?string $navigationLabel = 'Course';
+
     public static function form(Form $form): Form
     {
         return $form

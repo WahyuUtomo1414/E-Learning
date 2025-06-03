@@ -31,6 +31,8 @@ class AttendanceResource extends Resource
 
     protected static ?string $navigationGroup = 'Attendance Management';
 
+    protected static ?string $navigationLabel = 'Attendance';
+
     public static function form(Form $form): Form
     {
         return $form

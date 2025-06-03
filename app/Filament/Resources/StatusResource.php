@@ -29,6 +29,8 @@ class StatusResource extends Resource
 
     protected static ?string $navigationGroup = 'Status Management';
 
+    protected static ?string $navigationLabel = 'Status';
+
     public static function form(Form $form): Form
     {
         return $form

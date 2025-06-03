@@ -32,9 +32,9 @@ class ClassroomResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
 
-    protected static ?string $navigationLabel = 'Class';
+    protected static ?string $navigationLabel = 'Classroom';
 
-    protected static ?string $pluralModelLabel = 'Class';
+    protected static ?string $pluralModelLabel = 'Classroom';
 
     protected static ?string $navigationGroup = 'School Management';
 

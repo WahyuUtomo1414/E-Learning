@@ -30,6 +30,8 @@ class GuardianStudentResource extends Resource
 
     protected static ?string $navigationGroup = 'Student Management';
 
+    protected static ?string $navigationLabel = 'Guardian Student';
+
     public static function form(Form $form): Form
     {
         return $form

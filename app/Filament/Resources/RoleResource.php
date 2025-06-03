@@ -26,6 +26,8 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'Authorization Management';
 
+    protected static ?string $navigationLabel = 'Role';
+
     public static function form(Form $form): Form
     {
         return $form
