@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('school_master')->constrained('teacher');
             $table->text('street');
             $table->text('desc')->nullable();
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->time('school_start_time');
             $this->base($table);
         });

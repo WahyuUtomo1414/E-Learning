@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('student', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->date('year_entry');
             $table->string('student_number', 10);
             $this->base($table);
         });
