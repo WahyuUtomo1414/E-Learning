@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Teacher;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -46,5 +47,12 @@ class UserSeeder extends Seeder
             ]
         ];
         User::insert($user);
+
+        $teacher = [
+            'user_id' => 2,
+            'techer_number' => '122313',
+            'status_id' => 1,
+        ];
+        Teacher::insert($teacher);
     }
 }

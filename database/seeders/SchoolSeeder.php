@@ -19,7 +19,7 @@ class SchoolSeeder extends Seeder
             "id" => 1,
             "name" => "SMK Patriot Nusantara",
             "logo" => "images/2.png",
-            "school_master " => 2,
+            "school_master" => 1,
             "street" => "Jl. Sekolah No.26-27 1, RT.1/RW.5, Kamal, Kec. Kalideres, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11810",
             "desc" => "",
             "latitude" => "-6.105245",
@@ -33,12 +33,14 @@ class SchoolSeeder extends Seeder
             [
                 "id" => 1,
                 "name" => "Jaringan Komputer",
+                'acronym' => "JKR",
                 "desc" => "",
                 "status_id" => 1,
             ],
             [
                 "id" => 2,
                 "name" => "Multimedia",
+                'acronym' => "MLTM",
                 "desc" => "",
                 "status_id" => 1,
             ]
@@ -47,29 +49,29 @@ class SchoolSeeder extends Seeder
 
         $classroom = [
             [
-                'teacher_id' => 2,
+                'teacher_id' => 1,
                 'school_id' => 1,
                 'major_id' => 1,
                 'level' => '10',
-                'classroom_code' => '',
+                'classroom_code' => 'adafa',
                 'desc' => '',
                 'status_id' => 1,
             ],
             [
-                'teacher_id' => 2,
+                'teacher_id' => 1,
                 'school_id' => 1,
                 'major_id' => 1,
                 'level' => '11',
-                'classroom_code' => '',
+                'classroom_code' => 'dafa',
                 'desc' => '',
                 'status_id' => 1,
             ],
             [
-                'teacher_id' => 2,
+                'teacher_id' => 1,
                 'school_id' => 1,
                 'major_id' => 1,
                 'level' => '12',
-                'classroom_code' => '',
+                'classroom_code' => 'dadadaf',
                 'desc' => '',
                 'status_id' => 1,
             ]

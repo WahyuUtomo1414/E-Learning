@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('teacher');
             $table->foreignId('school_id')->constrained('school');
             $table->foreignId('major_id')->constrained('major');
-            $table->string('name', 128);
-            $table->string('classroom_number', 10);
+            $table->string('level', 128);
+            $table->string('classroom_code', 10);
             $table->string('desc', 255);
             $this->base($table);
         });
