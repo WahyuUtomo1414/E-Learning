@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classroom;
 use App\Models\Major;
 use App\Models\School;
 use Illuminate\Database\Seeder;
@@ -43,5 +44,36 @@ class SchoolSeeder extends Seeder
             ]
         ];
         Major::insert($major);
+
+        $classroom = [
+            [
+                'teacher_id' => 2,
+                'school_id' => 1,
+                'major_id' => 1,
+                'level' => '10',
+                'classroom_code' => '',
+                'desc' => '',
+                'status_id' => 1,
+            ],
+            [
+                'teacher_id' => 2,
+                'school_id' => 1,
+                'major_id' => 1,
+                'level' => '11',
+                'classroom_code' => '',
+                'desc' => '',
+                'status_id' => 1,
+            ],
+            [
+                'teacher_id' => 2,
+                'school_id' => 1,
+                'major_id' => 1,
+                'level' => '12',
+                'classroom_code' => '',
+                'desc' => '',
+                'status_id' => 1,
+            ]
+        ];
+        Classroom::insert($classroom);
     }
 }
