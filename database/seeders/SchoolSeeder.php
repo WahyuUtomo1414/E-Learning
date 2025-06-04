@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Major;
 use App\Models\School;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,5 +27,21 @@ class SchoolSeeder extends Seeder
             "status_id" => 1,
         ];
         School::insert($school);
+
+        $major = [
+            [
+                "id" => 1,
+                "name" => "Jaringan Komputer",
+                "desc" => "",
+                "status_id" => 1,
+            ],
+            [
+                "id" => 2,
+                "name" => "Multimedia",
+                "desc" => "",
+                "status_id" => 1,
+            ]
+        ];
+        Major::insert($major);
     }
 }
