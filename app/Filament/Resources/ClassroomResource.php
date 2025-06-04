@@ -76,16 +76,6 @@ class ClassroomResource extends Resource
                             ->label('Description')
                             ->columnSpan(3),
                     ])->columns(3),
-                FormSection::make('Student Data')
-                    ->description('Prevent abuse by limiting the number of requests per period')
-                    ->schema([
-                        Select::make('students')
-                            ->options(Student::with('user')->get()->pluck('user.name', 'id'))
-                            ->multiple()
-                            ->required()
-                            ->searchable()
-                            ->label('Student'),
-                    ]),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
@@ -114,17 +104,17 @@ class ClassroomResource extends Resource
                 TextColumn::make('desc')
                     ->label('Description')
                     ->searchable(),
-                TextColumn::make('students.user.name')
-                    ->label('Student')
-                    ->listWithLineBreaks(),
                 TextColumn::make('status.name')
                     ->sortable(),
                 TextColumn::make('createdBy.name')
-                    ->label('Created By'),
+                    ->label('Created By')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updatedBy.name')
-                    ->label("Updated by"),
+                    ->label("Updated by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deletedBy.name')
-                    ->label("Deleted by"),
+                    ->label("Deleted by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
