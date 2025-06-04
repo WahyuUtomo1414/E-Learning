@@ -88,7 +88,11 @@ class CourseResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('classroom.name')
+                TextColumn::make('classroom')
+                    ->label('Kelas')
+                    ->formatStateUsing(function ($record) {
+                        return $record->classroom->level . ' - ' . $record->classroom->major->acronym;
+                    })
                     ->sortable(),
                 TextColumn::make('teacher.user.name')
                     ->label('Teacher Name')
