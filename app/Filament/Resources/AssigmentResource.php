@@ -38,7 +38,7 @@ class AssigmentResource extends Resource
         return $form
             ->schema([
                 Select::make('classroom_id')
-                    ->options(Classroom::all()->pluck('name', 'id'))
+                    ->options(Classroom::all()->pluck('level', 'id'))
                     ->label('Classroom')
                     ->required()
                     ->searchable(),
@@ -76,10 +76,12 @@ class AssigmentResource extends Resource
                 TextColumn::make('classroom.major.name')
                     ->label('Major')
                     ->sortable()
-                    ->searchable(),
-                TextColumn::make('classroom_full')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('classroom.level')
                     ->label('Classroom')
-                    ->getStateUsing(fn ($record) => $record->classroom->name . ' - ' . $record->classroom->classroom_number),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('course.name')
                     ->label('Course')
                     ->sortable()
@@ -94,18 +96,23 @@ class AssigmentResource extends Resource
                     ->limit(50),
                 TextColumn::make('deadline')
                     ->date()
-                    ->sortable()
-                    ->limit(50),
+                    ->sortable(),
+                TextColumn::make('desc')
+                    ->limit(50)
+                    ->label('Description'),
                 TextColumn::make('status.name')
                     ->label('Status')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('createdBy.name')
-                    ->label('Created By'),
+                    ->label('Created By')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updatedBy.name')
-                    ->label("Updated by"),
+                    ->label("Updated by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deletedBy.name')
-                    ->label("Deleted by"),
+                    ->label("Deleted by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
