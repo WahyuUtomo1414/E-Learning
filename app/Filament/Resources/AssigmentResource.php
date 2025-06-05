@@ -11,6 +11,7 @@ use App\Models\Assigment;
 use App\Models\Classroom;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\EditAction;
@@ -160,9 +161,26 @@ class AssigmentResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        $query = parent::getEloquentQuery()->withoutGlobalScopes([SoftDeletingScope::class]);
+
+        $user = Auth::user();
+
+        if ($user->role_id === 2) {
+            // TEACHER: filter by created_by = auth user id
+            $query->where('created_by', $user->id);
+
+        } elseif ($user->role_id === 3) {
+            // STUDENT: cari classroom_id dari student yang login
+            $student = \App\Models\Student::where('user_id', $user->id)->first();
+
+            if ($student) {
+                $query->where('classroom_id', $student->classroom_id);
+            } else {
+                // tidak ditemukan student → jangan tampilkan data
+                $query->whereRaw('1 = 0');
+            }
+        }
+
+        return $query;
     }
 }
