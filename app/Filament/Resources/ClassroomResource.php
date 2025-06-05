@@ -62,13 +62,13 @@ class ClassroomResource extends Resource
                             ->searchable()
                             ->options(fn () => Major::query()->pluck('name', 'id')->toArray())
                             ->label('Major'),
-                        TextInput::make('name')
+                        TextInput::make('level')
                             ->required()
                             ->label('Level')
                             ->maxLength(128),
-                        TextInput::make('classroom_number')
+                        TextInput::make('classroom_code')
                             ->required()
-                            ->label('Classroom Number')
+                            ->label('Classroom Code')
                             ->maxLength(10),
                         Textarea::make('desc')
                             ->required()
@@ -80,7 +80,7 @@ class ClassroomResource extends Resource
                     ->required()
                     ->label('Status')
                     ->searchable()
-                    ->options(Status::where('status_type,id', 1)->pluck('name', 'id')),
+                    ->options(Status::where('status_type_id', 1)->pluck('name', 'id')),
             ]);
     }
 
@@ -89,17 +89,20 @@ class ClassroomResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('school.name')
-                    ->sortable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('level')
+                    ->label('Level')
+                    ->searchable()
+                    ->sortable()
+                    ->badge()
+                    ->color('info'),
+                TextColumn::make('classroom_code')
+                    ->label('Class Code')
+                    ->searchable(),
                 TextColumn::make('teacher.user.name')
                     ->label('Guardian Class')
-                    ->sortable(),
-                TextColumn::make('major.name')
-                    ->sortable(),
-                TextColumn::make('name')
-                    ->label('Level')
                     ->searchable(),
-                TextColumn::make('classroom_number')
-                    ->label('Class Number')
+                TextColumn::make('major.name')
                     ->searchable(),
                 TextColumn::make('desc')
                     ->label('Description')
@@ -154,30 +157,29 @@ class ClassroomResource extends Resource
                     ->description('Prevent abuse by limiting the number of requests per period')
                     ->schema([
                         TextEntry::make('school.name')
-                            ->label('School')
-                            ->columnSpan(3),
+                            ->label('School'),
                         TextEntry::make('major.name')
                             ->label('Major'),
-                        TextEntry::make('classroom_full')
-                            ->label('Classroom')
-                            ->getStateUsing(fn ($record) =>
-                                $record->name . ' - ' . $record->classroom_number
-                            ),
+                        TextEntry::make('level')
+                            ->label('Level')
+                            ->badge()
+                            ->color('info'),
+                        TextEntry::make('classroom_code')
+                            ->label('Class Code'),
                         TextEntry::make('teacher.user.name')
                             ->label('Guardian Class'),
                         TextEntry::make('desc')
                             ->label('Description')
                             ->columnSpan(3),
-                    ])
-                    ->columns(3),
-                    InfolistSection::make('Student Data')
-                        ->icon('heroicon-m-users')
-                        ->description('Prevent abuse by limiting the number of requests per period')
-                        ->schema([
-                            TextEntry::make('students.user.name')
-                                ->label('Student')
-                                ->listWithLineBreaks(),
-                        ]),
+                    ])->columns(3),
+                    // InfolistSection::make('Student Data')
+                    //     ->icon('heroicon-m-users')
+                    //     ->description('Prevent abuse by limiting the number of requests per period')
+                    //     ->schema([
+                    //         TextEntry::make('students.user.name')
+                    //             ->label('Student')
+                    //             ->listWithLineBreaks(),
+                    //     ]),
             ]);
     }
 
