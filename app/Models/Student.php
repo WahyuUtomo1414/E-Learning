@@ -24,8 +24,8 @@ class Student extends Model
         return $this->belongsTo(Status::class, 'status_id');
     }
 
-    public function classrooms()
+    public function classroom()
     {
-        return $this->belongsToMany(Classroom::class, 'student_classrooms_mapping', 'stundent_id', 'classroom_id');
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 }

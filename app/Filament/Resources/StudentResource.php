@@ -8,12 +8,14 @@ use Filament\Tables;
 use App\Models\Status;
 use App\Models\Student;
 use Filament\Forms\Form;
+use App\Models\Classroom;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StudentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,12 +37,23 @@ class StudentResource extends Resource
             ->schema([
                 Select::make('user_id')
                     ->required()
-                    ->options(fn () => User::where('role_Id', 3)->pluck('name', 'id'))
+                    ->options(User::where('role_Id', 3)->pluck('name', 'id'))
                     ->label('User')
                     ->searchable(),
                 TextInput::make('student_number')
                     ->required()
                     ->maxLength(10),
+                Select::make('classroom_id')
+                    ->options(Classroom::all()->pluck('level', 'id'))
+                    ->label('Classroom')
+                    ->searchable(),
+                Select::make('year_entry')
+                    ->required()
+                    ->options(array_combine(
+                        range(1995, 2024),
+                        range(1995, 2024)
+                    ))
+                    ->label('Year Entry'),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
@@ -75,6 +88,14 @@ class StudentResource extends Resource
                     ->url(fn ($state) => 'https://wa.me/' . preg_replace('/^0/', '62', $state), true)
                     ->color('info')
                     ->openUrlInNewTab()
+                    ->searchable(),
+                TextColumn::make('classroom.level')
+                    ->label('CLassroom')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('year_entry')
+                    ->label('Year Entry')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('status.name')
                     ->sortable(),
