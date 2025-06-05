@@ -12,9 +12,8 @@ use App\Models\Classroom;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section as FormSection;
-use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -23,6 +22,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\CourseResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Section as FormSection;
+use Filament\Infolists\Components\Section as InfolistSection;
 
 class CourseResource extends Resource
 {
@@ -238,9 +239,29 @@ class CourseResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        $query = parent::getEloquentQuery()->withoutGlobalScopes([SoftDeletingScope::class]);
+
+        $user = Auth::user();
+
+        if ($user->role_id === 2) {
+            // TEACHER: course.teacher.user_id = auth()->id()
+            $query->whereHas('teacher', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
+
+        } elseif ($user->role_id === 3) {
+            // STUDENT: cari classroom_id dari student yang login
+            $student = \App\Models\Student::where('user_id', $user->id)->first();
+
+            if ($student) {
+                $query->where('classroom_id', $student->classroom_id);
+            } else {
+                // tidak ditemukan student → jangan tampilkan data
+                $query->whereRaw('1 = 0');
+            }
+        }
+
+        return $query;
     }
+
 }
