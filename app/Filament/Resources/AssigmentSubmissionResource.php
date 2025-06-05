@@ -10,6 +10,7 @@ use App\Models\Assigment;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Models\AssigmentSubmission;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
@@ -46,9 +47,11 @@ class AssigmentSubmissionResource extends Resource
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
-                    ->columnSpan(2),
+                    ->columnSpan(2)
+                    ->hidden(fn () => Auth::user()->role_id === 3),
                 Textarea::make('feedback')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->hidden(fn () => Auth::user()->role_id === 3),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
@@ -83,11 +86,14 @@ class AssigmentSubmissionResource extends Resource
                     ->label('Status')   
                     ->sortable(),
                 TextColumn::make('createdBy.name')
-                    ->label('Created By'),
+                    ->label('Created By')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updatedBy.name')
-                    ->label("Updated by"),
+                    ->label("Updated by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deletedBy.name')
-                    ->label("Deleted by"),
+                    ->label("Deleted by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -133,11 +139,15 @@ class AssigmentSubmissionResource extends Resource
         ];
     }
 
+     // method untuk memfilter data berdasarkan student yang sedang login
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        $query = parent::getEloquentQuery()->withoutGlobalScopes([SoftDeletingScope::class]);
+    
+        if (Auth::check() && Auth::user()->role_id === 3) {
+            $query->where('created_by', Auth::id());
+        }
+    
+        return $query;
     }
 }
