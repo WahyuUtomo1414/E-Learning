@@ -32,7 +32,7 @@ class TeacherResource extends Resource
 
     protected static ?string $navigationGroup = 'School Management';
 
-    protected static ?string $navigationLabel = 'Student';
+    protected static ?string $navigationLabel = 'Teacher';
 
     public static function form(Form $form): Form
     {
