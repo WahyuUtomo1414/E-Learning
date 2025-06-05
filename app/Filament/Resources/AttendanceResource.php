@@ -11,6 +11,7 @@ use App\Models\Attendance;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -138,5 +139,17 @@ class AttendanceResource extends Resource
             'create' => Pages\CreateAttendance::route('/create'),
             'edit' => Pages\EditAttendance::route('/{record}/edit'),
         ];
+    }
+
+    // method untuk memfilter data berdasarkan student yang sedang login
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery()->withoutGlobalScopes([SoftDeletingScope::class]);
+    
+        if (Auth::check() && Auth::user()->role_id === 3) {
+            $query->where('created_by', Auth::id());
+        }
+    
+        return $query;
     }
 }
