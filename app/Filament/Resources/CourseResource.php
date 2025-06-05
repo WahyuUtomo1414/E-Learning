@@ -87,31 +87,27 @@ class CourseResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Course Name')
                     ->searchable(),
                 TextColumn::make('classroom')
-                    ->label('Kelas')
+                    ->label('Class')
                     ->formatStateUsing(function ($record) {
                         return $record->classroom->level . ' - ' . $record->classroom->major->acronym;
                     })
-                    ->sortable(),
+                    ->sortable()
+                    ->badge()
+                    ->color('info')
+                    ->searchable(),
                 TextColumn::make('teacher.user.name')
                     ->label('Teacher Name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('desc')
-                    ->label('Description')
-                    ->limit(50)
-                    ->searchable(),
-                TextColumn::make('learning_materials')
-                    ->label('Learning Materials')
-                    ->url(fn (Course $record): string => $record->learning_materials)
-                    ->openUrlInNewTab()
-                    ->color('info')
-                    ->searchable(),
                 TextColumn::make('day.name')
                     ->searchable()
                     ->label('Day')
-                    ->sortable(),
+                    ->sortable()
+                    ->badge()
+                    ->color('success'),
                 TextColumn::make('check_in')
                     ->label('Check In')
                     ->sortable()
@@ -124,6 +120,16 @@ class CourseResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return \Carbon\Carbon::parse($state)->format('H:i') . ' WIB';
                     }),
+                TextColumn::make('desc')
+                    ->label('Description')
+                    ->limit(50)
+                    ->searchable(),
+                TextColumn::make('learning_materials')
+                    ->label('Learning Materials')
+                    ->url(fn (Course $record): string => $record->learning_materials)
+                    ->openUrlInNewTab()
+                    ->color('info')
+                    ->searchable(),
                 TextColumn::make('status.name')
                     ->sortable(),
                 TextColumn::make('createdBy.name')
@@ -175,9 +181,11 @@ class CourseResource extends Resource
                     ->schema([
                         TextEntry::make('name')
                             ->label('Course Name'),
-                        TextEntry::make('classroom_full')
-                            ->label('Classroom')
-                            ->getStateUsing(fn ($record) => $record->classroom->name . ' - ' . $record->classroom->classroom_number),
+                        TextEntry::make('classroom')
+                            ->label('Class')
+                            ->formatStateUsing(function ($record) {
+                                return $record->classroom->level . ' - ' . $record->classroom->major->acronym;
+                            }),
                         TextEntry::make('teacher.user.name')
                             ->label('Teacher Name'),
                         TextEntry::make('desc')
