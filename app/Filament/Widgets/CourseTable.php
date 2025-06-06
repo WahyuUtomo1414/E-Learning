@@ -46,7 +46,7 @@ class CourseTable extends BaseWidget
             )
             ->defaultPaginationPageOption(10)
             ->columns([
-                TextColumn::make('classroom')
+                TextColumn::make('classroom.level')
                     ->label('Class')
                     ->formatStateUsing(function ($record) {
                         return $record->classroom->level . ' - ' . $record->classroom->major->acronym;
