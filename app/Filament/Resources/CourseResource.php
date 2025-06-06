@@ -40,12 +40,13 @@ class CourseResource extends Resource
         return $form
             ->schema([
                 Select::make('classroom_id')
-                    ->options(Classroom::all()->pluck('name', 'id'))
+                    ->options(Classroom::all()->pluck('level', 'id'))
                     ->label('Classroom')
                     ->searchable(),
                 Select::make('teacher_id')
                     ->required()
-                    ->options(Teacher::with('user')->get()->pluck('user.name', 'id'))
+                    ->options(
+                        Teacher::with('user')->get()->pluck('user.name', 'id'))
                     ->label('Subject Teachers')
                     ->searchable(),
                 TextInput::make('name')
@@ -78,7 +79,7 @@ class CourseResource extends Resource
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
-                    ->options(Status::where('status_type_id', 1)->pluck('name', 'id'))
+                    ->options(fn () => Status::where('status_type_id', 1)->pluck('name', 'id'))
                     ->searchable(),
             ]);
     }
@@ -87,10 +88,7 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->label('Course Name')
-                    ->searchable(),
-                TextColumn::make('classroom')
+                TextColumn::make('classroom.level')
                     ->label('Class')
                     ->formatStateUsing(function ($record) {
                         return $record->classroom->level . ' - ' . $record->classroom->major->acronym;
@@ -98,6 +96,9 @@ class CourseResource extends Resource
                     ->sortable()
                     ->badge()
                     ->color('info')
+                    ->searchable(),
+                TextColumn::make('name')
+                    ->label('Course Name')
                     ->searchable(),
                 TextColumn::make('teacher.user.name')
                     ->label('Teacher Name')
