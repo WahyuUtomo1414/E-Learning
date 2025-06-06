@@ -65,6 +65,8 @@ class AssigmentSubmissionResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('createdBy.name')
+                    ->label('Student'),
                 TextColumn::make('assigment.name')
                     ->searchable()
                     ->label('Assigment')
@@ -85,9 +87,6 @@ class AssigmentSubmissionResource extends Resource
                 TextColumn::make('status.name')
                     ->label('Status')   
                     ->sortable(),
-                TextColumn::make('createdBy.name')
-                    ->label('Created By')
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updatedBy.name')
                     ->label("Updated by")
                     ->toggleable(isToggledHiddenByDefault: true),
