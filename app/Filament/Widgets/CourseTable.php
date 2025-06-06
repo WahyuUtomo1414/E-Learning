@@ -46,9 +46,6 @@ class CourseTable extends BaseWidget
             )
             ->defaultPaginationPageOption(10)
             ->columns([
-                TextColumn::make('name')
-                    ->label('Course Name')
-                    ->searchable(),
                 TextColumn::make('classroom')
                     ->label('Class')
                     ->formatStateUsing(function ($record) {
@@ -57,6 +54,9 @@ class CourseTable extends BaseWidget
                     ->sortable()
                     ->badge()
                     ->color('info')
+                    ->searchable(),
+                TextColumn::make('name')
+                    ->label('Course Name')
                     ->searchable(),
                 TextColumn::make('teacher.user.name')
                     ->label('Teacher Name')
