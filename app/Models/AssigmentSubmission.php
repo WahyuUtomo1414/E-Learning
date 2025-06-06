@@ -18,4 +18,9 @@ class AssigmentSubmission extends Model
     {
         return $this->belongsTo(Assigment::class);
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }
