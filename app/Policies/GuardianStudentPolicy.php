@@ -29,7 +29,7 @@ class GuardianStudentPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->role_id != 3;
     }
 
     /**
@@ -37,7 +37,7 @@ class GuardianStudentPolicy
      */
     public function update(User $user, GuardianStudent $guardianStudent): bool
     {
-        return false;
+        return $user->role_id != 3;
     }
 
     /**
@@ -45,7 +45,7 @@ class GuardianStudentPolicy
      */
     public function delete(User $user, GuardianStudent $guardianStudent): bool
     {
-        return false;
+        return $user->role_id != 3;
     }
 
     /**
@@ -53,7 +53,7 @@ class GuardianStudentPolicy
      */
     public function restore(User $user, GuardianStudent $guardianStudent): bool
     {
-        return false;
+        return $user->role_id != 3;
     }
 
     /**
@@ -61,6 +61,6 @@ class GuardianStudentPolicy
      */
     public function forceDelete(User $user, GuardianStudent $guardianStudent): bool
     {
-        return false;
+        return $user->role_id != 3;
     }
 }
