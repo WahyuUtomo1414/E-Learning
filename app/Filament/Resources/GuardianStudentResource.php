@@ -54,6 +54,7 @@ class GuardianStudentResource extends Resource
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
+                    ->default(1)
                     ->options(Status::where('status_type_id', 1)->pluck('name', 'id')),
             ]);
     }
@@ -82,11 +83,14 @@ class GuardianStudentResource extends Resource
                     ->label('Status')
                     ->sortable(),
                 TextColumn::make('createdBy.name')
-                    ->label('Created By'),
+                    ->label('Created By')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updatedBy.name')
-                    ->label("Updated by"),
+                    ->label("Updated by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deletedBy.name')
-                    ->label("Deleted by"),
+                    ->label("Deleted by")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
