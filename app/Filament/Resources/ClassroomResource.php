@@ -71,7 +71,6 @@ class ClassroomResource extends Resource
                             ->label('Classroom Code')
                             ->maxLength(10),
                         Textarea::make('desc')
-                            ->required()
                             ->maxLength(255)
                             ->label('Description')
                             ->columnSpan(3),
