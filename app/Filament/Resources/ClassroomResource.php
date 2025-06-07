@@ -45,7 +45,7 @@ class ClassroomResource extends Resource
                 Select::make('school_id')
                     ->required()
                     ->searchable()
-                    ->options(fn () => School::query()->pluck('name', 'id')->toArray())
+                    ->options(School::all()->pluck('name', 'id'))
                     ->label('School'),
                 Select::make('teacher_id')
                     ->required()
@@ -60,7 +60,7 @@ class ClassroomResource extends Resource
                         Select::make('major_id')
                             ->required()
                             ->searchable()
-                            ->options(fn () => Major::query()->pluck('name', 'id')->toArray())
+                            ->options(Major::query()->pluck('name', 'id'))
                             ->label('Major'),
                         TextInput::make('level')
                             ->required()
