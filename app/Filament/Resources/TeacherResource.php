@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -43,9 +44,9 @@ class TeacherResource extends Resource
                     ->options(User::where('role_id', 2)->pluck('name', 'id'))
                     ->label('User')
                     ->searchable(),
-                TextInput::make('techer_number')
+                Hidden::make('teacher_number')
                     ->required()
-                    ->maxLength(10),
+                    ->default('TC-' . str_pad(mt_rand(0, 99), 4, '0', STR_PAD_LEFT)),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
@@ -64,7 +65,7 @@ class TeacherResource extends Resource
                 TextColumn::make('user.name')
                     ->label('Teacher Name')
                     ->sortable(),
-                TextColumn::make('techer_number')
+                TextColumn::make('teacher_number')
                     ->label('Teacher Number')
                     ->searchable(),
                 TextColumn::make('user.email')
