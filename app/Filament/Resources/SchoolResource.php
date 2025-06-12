@@ -85,7 +85,8 @@ class SchoolResource extends Resource
                 ImageColumn::make('logo')
                     ->label('Logo')
                     ->circular()
-                    ->size(70),
+                    ->size(70)
+                    ->defaultImageUrl(asset('images/schoollogo.png')),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('schoolMaster.user.name')
