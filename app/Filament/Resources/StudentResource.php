@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use App\Models\Classroom;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -40,9 +41,9 @@ class StudentResource extends Resource
                     ->options(User::where('role_Id', 3)->pluck('name', 'id'))
                     ->label('User')
                     ->searchable(),
-                TextInput::make('student_number')
+                Hidden::make('student_number')
                     ->required()
-                    ->maxLength(10),
+                    ->default('STN-' . str_pad(mt_rand(0, 99), 4, '0', STR_PAD_LEFT)),
                 Select::make('classroom_id')
                     ->options(Classroom::all()->pluck('level', 'id'))
                     ->label('Classroom')
