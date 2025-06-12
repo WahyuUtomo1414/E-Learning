@@ -68,6 +68,7 @@ class ClassroomResource extends Resource
                             ->maxLength(128),
                         TextInput::make('classroom_code')
                             ->required()
+                            ->default('CLass-' . str_pad(mt_rand(0, 99), 4, '0', STR_PAD_LEFT))
                             ->label('Classroom Code')
                             ->maxLength(10),
                         Textarea::make('desc')
