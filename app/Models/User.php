@@ -65,6 +65,12 @@ class User extends Authenticatable implements HasAvatar
         return $this->belongsTo(Status::class);
     }
 
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id');
+    }
+    
+
     public function getFilamentAvatarUrl(): ?string
     {
         $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
