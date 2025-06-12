@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
             StatusSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            SchoolSeeder::class,
             DaySeed::class,
             AttandanceSeeder::class,
-            SchoolSeeder::class,
             CourseSeeder::class,
         ]);
     }
