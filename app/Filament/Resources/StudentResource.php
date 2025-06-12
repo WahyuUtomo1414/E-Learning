@@ -68,7 +68,8 @@ class StudentResource extends Resource
                 ImageColumn::make('user.avatar_url')
                     ->label('Foto')
                     ->circular()
-                    ->size(70),
+                    ->size(70)
+                    ->defaultImageUrl(asset('images/student.png')),
                 TextColumn::make('user.name')
                     ->label('Student Name')
                     ->sortable(),
