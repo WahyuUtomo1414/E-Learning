@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '08123456789',
                 'avatar_url' => 'default.png',
                 'role_id' => 1,
-                'school_id' => 1,
+                'school_id' => null,
                 'status_id' => 1,         
             ],
             [
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '08123456789',
                 'avatar_url' => 'default.png',
                 'role_id' => 2,
-                'school_id' => 1,
+                'school_id' => null,
                 'status_id' => 1,      
             ],
             [
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '08123456789',
                 'avatar_url' => 'default.png',
                 'role_id' => 1,
-                'school_id' => 1,
+                'school_id' => null,
                 'status_id' => 1,      
             ]
         ];
@@ -54,17 +54,9 @@ class UserSeeder extends Seeder
 
         $teacher = [
             'user_id' => 2,
-            'techer_number' => '122313',
+            'teacher_number' => '122313',
             'status_id' => 1,
         ];
         Teacher::insert($teacher);
-
-        $student = [
-            'user_id' => 3,
-            'student_number' => '122313',
-            'year_entry' => '2024',
-            'status_id' => 1,
-        ];
-        Student::insert($student);
     }
 }
