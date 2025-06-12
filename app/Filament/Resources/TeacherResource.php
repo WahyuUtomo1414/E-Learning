@@ -61,7 +61,8 @@ class TeacherResource extends Resource
                 ImageColumn::make('user.avatar_url')
                     ->label('Foto')
                     ->circular()
-                    ->size(70),
+                    ->size(70)
+                    ->defaultImageUrl(asset('images/teacher.jpeg')),
                 TextColumn::make('user.name')
                     ->label('Teacher Name')
                     ->sortable(),
