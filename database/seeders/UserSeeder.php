@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
                 'phone_number' => '08123456789',
                 'avatar_url' => 'default.png',
                 'role_id' => 1,
+                
                 'status_id' => 1,         
             ],
             [

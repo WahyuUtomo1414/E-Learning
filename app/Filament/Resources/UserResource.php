@@ -6,10 +6,12 @@ use Filament\Forms;
 use App\Models\Role;
 use App\Models\User;
 use Filament\Tables;
+use App\Models\School;
 use App\Models\Status;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -55,6 +57,10 @@ class UserResource extends Resource
                     ->required()
                     ->label('Role')
                     ->options(Role::all()->pluck('name', 'id')),
+                Select::make('school_id')
+                    ->label('School')
+                    ->options(School::all()->pluck('name', 'id'))
+                    ->required(),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
