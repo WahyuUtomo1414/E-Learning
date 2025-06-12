@@ -97,6 +97,7 @@ class UserResource extends Resource
                     ->openUrlInNewTab()
                     ->searchable(),
                 TextColumn::make('role.name'),
+                TextColumn::make('school.name'),
                 TextColumn::make('status.name'),
                 TextColumn::make('createdBy.name')
                     ->label('Created By'),
