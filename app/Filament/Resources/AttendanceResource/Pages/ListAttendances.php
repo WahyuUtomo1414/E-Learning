@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\AttendanceResource\Pages;
 
-use App\Filament\Resources\AttendanceResource;
 use Filament\Actions;
+use Filament\Tables\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\AttendanceResource;
 
 class ListAttendances extends ListRecords
 {
@@ -13,7 +14,12 @@ class ListAttendances extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make() // method untuk membuat tombol absen  
+                ->label('Create Attendance')
+                ->icon('heroicon-o-calendar-days')
+                ->color('info')
+                ->url(fn () => url('/dummy'))
+                ->openUrlInNewTab(false),
         ];
     }
 }

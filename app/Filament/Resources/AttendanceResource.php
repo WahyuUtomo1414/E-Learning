@@ -11,6 +11,7 @@ use App\Models\Attendance;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
+use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -123,6 +124,14 @@ class AttendanceResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+            // ->headerActions([
+            //     Action::make('create') // method untuk membuat tombol absen  
+            //         ->label('Tambah Presensi')
+            //         ->icon('heroicon-o-calendar-days')
+            //         ->color('info')
+            //         ->url(fn () => url('/dummy'))
+            //         ->openUrlInNewTab(false),
+            // ])
     }
 
     public static function getRelations(): array

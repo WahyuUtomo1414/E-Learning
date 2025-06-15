@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\AttendanceResource\Pages;
 
-use App\Filament\Resources\AttendanceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\AttendanceResource;
 
 class CreateAttendance extends CreateRecord
 {
