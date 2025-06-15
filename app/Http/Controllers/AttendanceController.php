@@ -20,18 +20,14 @@ class AttendanceController extends Controller
 
     public function store(AttendanceRequest $request)
     {
-        $data = $request->validated();
-        $user = Filament::auth()->user();
-
-        DB::beginTransaction();
-
         try {
-            $attendance = new Attendance($data);
-            $attendance->user_id = $user->id;
-            $attendance->latitude = $data['latitude'];
-            $attendance->longitude = $data['longitude'];
-            $attendance->desc = $data['desc'];
-            $attendance->status_id = 1;
+            $attendance = Attendance::create([
+                'user_id' => Filament::auth()->user(),
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'desc' => $request->desc,
+                'status_id' => $request->status_id
+            ]);
 
             // Cek apakah user sudah absen hari ini
             // $attendance = Attendance::where('user_id', $request->user_id)
@@ -50,10 +46,10 @@ class AttendanceController extends Controller
             //     $attendance->status_id = 5;
             // }
 
-            $attendance->save();
-            DB::commit();
-
-        return response()->redirectTo('/succes')->with('success', 'Absensi Berhasil Dilakukan');
+            return response()->redirectTo('/succes')->json([
+                'message' => 'attendance berhasil dibuat',
+                'data' => $attendance
+            ]);
 
         } catch (Exception $e) {
             return response()->redirectTo('/eror-attendance')
