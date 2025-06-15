@@ -21,13 +21,18 @@ class AttendanceController extends Controller
     public function store(AttendanceRequest $request)
     {
         try {
-            $attendance = Attendance::create([
-                'user_id' => Filament::auth()->user(),
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'desc' => $request->desc,
-                'status_id' => $request->status_id
-            ]);
+            $validated = $request->validate();
+            // $attendance = Attendance::create([
+            //     'user_id' => Filament::auth()->user(),
+            //     'latitude' => $request->latitude,
+            //     'longitude' => $request->longitude,
+            //     'desc' => $request->desc,
+            //     'status_id' => $request->status_id
+            // ]);
+
+            $attendance = new Attendance();
+            $attendance->fill($validated);
+            $attendance->save();
 
             // Cek apakah user sudah absen hari ini
             // $attendance = Attendance::where('user_id', $request->user_id)
