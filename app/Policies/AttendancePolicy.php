@@ -29,7 +29,8 @@ class AttendancePolicy
      */
     public function create(User $user): bool
     {
-        return $user->role_id == 3;
+        return true;
+        //return $user->role_id == 3;
     }
 
     /**

@@ -18,7 +18,7 @@ class AttendanceController extends Controller
         return view('pages.attendance', compact('attendance'));
     }
 
-    public function attendance(AttendanceRequest $request)
+    public function store(AttendanceRequest $request)
     {
         $data = $request->validated();
         $user = Filament::auth()->user();
@@ -43,7 +43,7 @@ class AttendanceController extends Controller
 
             // Cek apakah user sudah absen hari ini
             // $attendance = Attendance::where('user_id', $request->user_id)
-            //     ->whereDate('create_at', now()->toDateString())
+            //     ->whereDate('created_at', now()->toDateString())
             //     ->first();
 
             // if (!$attendance) {
