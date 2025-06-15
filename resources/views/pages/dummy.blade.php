@@ -69,113 +69,110 @@
             <!-- Input Data User -->
             <input type="hidden" name="user_id" value="{{ $user->id }}">
             @error('user_id')
-                <div class="text-red-500 text-sm">{{ $message }}</div>
+            <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
 
             <!-- Input Data Lokasi -->
             <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude') }}">
             @error('latitude')
-                <div class="text-red-500 text-sm">{{ $message }}</div>
+            <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
         
             <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude') }}">
             @error('longitude')
-                <div class="text-red-500 text-sm">{{ $message }}</div>
+            <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
 
             <!-- Input Data Foto -->
-            <input type="hidden" name="foto" id="fotoInput" value="{{ old('fotoInput') }}">
-            @error('fotoInput')
-                <div class="text-red-500 text-sm">{{ $message }}</div>
+            <input type="hidden" name="foto_absensi" id="fotoInput" value="{{ old('foto_absensi') }}">
+            @error('foto_absensi')
+            <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
 
             <!-- Card Verifikasi Lokasi -->
             <div class="mx-auto my-4 p-6 flex flex-col items-center text-center">
 
-                {{-- Ikon Lokasi --}}
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-14 h-14 sm:w-16 sm:h-16 text-sky-800" {{-- Kelas dari img diterapkan di sini --}}
-                    role="img" aria-labelledby="svgTitleIconLokasi">
-                    <title id="svgTitleIconLokasi">Ikon Lokasi</title> {{-- Aksesibilitas pengganti alt text --}}
-                    {{-- Bagian g id="SVGRepo_..." adalah bawaan dari sumber SVG, bisa dipertahankan atau dihapus jika tidak diperlukan --}}
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        {{-- Mengubah stroke="#275590" menjadi stroke="currentColor" agar warna bisa diatur oleh kelas text-sky-600 --}}
-                        <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </g>
+            {{-- Ikon Lokasi --}}
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="w-14 h-14 sm:w-16 sm:h-16 text-sky-800"
+                role="img" aria-labelledby="svgTitleIconLokasi">
+                <title id="svgTitleIconLokasi">Ikon Lokasi</title>
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </svg>
+
+            {{-- Judul dan Deskripsi --}}
+            <div class="flex flex-col gap-1 w-full px-2 py-3">
+                <h1 class="text-lg sm:text-xl font-semibold text-sky-800">Verifikasi Lokasi Anda</h1>
+                <p class="text-xs sm:text-sm text-slate-600">
+                Kami perlu memastikan Anda berada di area sekolah. Mohon aktifkan GPS Anda.
+                </p>
+            </div>
+
+            {{-- Tombol Aksi & Indikator Loading --}}
+            <div class="w-full max-w-[280px]">
+                {{-- Tombol untuk mendapatkan lokasi --}}
+                <button type="button" id="getLocation"
+                    class="w-full bg-sky-800 text-white px-6 py-2.5 rounded-lg 
+                    hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
+                    transition-all duration-300 ease-in-out text-sm font-semibold shadow-md hover:shadow-lg
+                    flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001zm.612-1.426a.75.75 0 01-.308-.066L10 17.433l-.304.002a.75.75 0 01-.308.066l.002.001a.752.752 0 01-.308.066l-.003-.001a18.71 18.71 0 01-4.965-2.165l-.002-.001a18.709 18.709 0 01-4.21-11.123l.001-.002c0-3.517 2.748-6.437 6.437-6.437l.002.001h4.054l.002-.001c3.689 0 6.437 2.92 6.437 6.437l.001.002a18.71 18.71 0 01-4.21 11.123l-.002.001a18.71 18.71 0 01-4.965 2.165zM10 15c2.049 0 4.137-.963 5.566-2.748a.75.75 0 011.061 1.063A11.2 11.2 0 0110 16.5a11.2 11.2 0 01-6.627-3.185.75.75 0 111.06-1.063A9.7 9.7 0 0010 15zm0-3.75a.75.75 0 01.75.75v.008c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-.008a.75.75 0 01.75-.75z" clip-rule="evenodd" />
                 </svg>
-
-                {{-- Judul dan Deskripsi --}}
-                <div class="flex flex-col gap-1 w-full px-2 py-3">
-                    <h1 class="text-lg sm:text-xl font-semibold text-sky-800">Verifikasi Lokasi Anda</h1>
-                    <p class="text-xs sm:text-sm text-slate-600">
-                        Kami perlu memastikan Anda berada di area sekolah. Mohon aktifkan GPS Anda.
-                    </p>
-                </div>
-
-                {{-- Tombol Aksi & Indikator Loading --}}
-                <div class="w-full max-w-[280px]">
-                    {{-- Tombol untuk mendapatkan lokasi --}}
-                    <button type="button" id="getLocationButton"
-                            class="w-full bg-sky-800 text-white px-6 py-2.5 rounded-lg 
-                                hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
-                                transition-all duration-300 ease-in-out text-sm font-semibold shadow-md hover:shadow-lg
-                                flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                            <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001zm.612-1.426a.75.75 0 01-.308-.066L10 17.433l-.304.002a.75.75 0 01-.308.066l.002.001a.752.752 0 01-.308.066l-.003-.001a18.71 18.71 0 01-4.965-2.165l-.002-.001a18.709 18.709 0 01-4.21-11.123l.001-.002c0-3.517 2.748-6.437 6.437-6.437l.002.001h4.054l.002-.001c3.689 0 6.437 2.92 6.437 6.437l.001.002a18.71 18.71 0 01-4.21 11.123l-.002.001a18.71 18.71 0 01-4.965 2.165zM10 15c2.049 0 4.137-.963 5.566-2.748a.75.75 0 011.061 1.063A11.2 11.2 0 0110 16.5a11.2 11.2 0 01-6.627-3.185.75.75 0 111.06-1.063A9.7 9.7 0 0010 15zm0-3.75a.75.75 0 01.75.75v.008c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-.008a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                        </svg>
-                        <span id="getLocationButtonText">Dapatkan Lokasi</span>
-                            <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                    </button>
-                </div>
+                <span id="getLocationButtonText">Dapatkan Lokasi</span>
+                <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                </button>
+                <div id="notification" class="hidden mt-2 p-2 rounded text-white text-sm"></div>
+            </div>
             </div>
 
             <!-- form kamera -->
             <div class="w-full max-w-md h-auto mx-auto my-2">
-                <div class="p-6 flex flex-col items-center gap-4">
-                    <label for="camera" class="block text-xl font-semibold text-sky-800 text-center">
-                        Ambil Foto Kehadiran
-                    </label>
-                    
-                    {{-- Video Element untuk Kamera --}}
-                    <div class="w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-md mx-auto">
-                        <video id="video" class="w-full h-full object-cover" autoplay playsinline muted></video>
-                    </div>
-                    
-                    <button type="button" id="captureButton" class="mt-4 w-full max-w-xs bg-sky-800 text-white px-6 py-3 rounded-lg 
-                                    hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
-                                    transition-all duration-300 ease-in-out text-base font-semibold shadow-md hover:shadow-lg
-                                    flex items-center justify-center gap-2">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"> {{-- Stroke diatur ke currentColor dan warna dari text-white button --}}
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier"> 
-                                    <path d="M12 16C13.6569 16 15 14.6569 15 13C15 11.3431 13.6569 10 12 10C10.3431 10 9 11.3431 9 13C9 14.6569 10.3431 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
-                                    <path d="M3 16.8V9.2C3 8.0799 3 7.51984 3.21799 7.09202C3.40973 6.71569 3.71569 6.40973 4.09202 6.21799C4.51984 6 5.0799 6 6.2 6H7.25464C7.37758 6 7.43905 6 7.49576 5.9935C7.79166 5.95961 8.05705 5.79559 8.21969 5.54609C8.25086 5.49827 8.27836 5.44328 8.33333 5.33333C8.44329 5.11342 8.49827 5.00346 8.56062 4.90782C8.8859 4.40882 9.41668 4.08078 10.0085 4.01299C10.1219 4 10.2448 4 10.4907 4H13.5093C13.7552 4 13.8781 4 13.9915 4.01299C14.5833 4.08078 15.1141 4.40882 15.4394 4.90782C15.5017 5.00345 15.5567 5.11345 15.6667 5.33333C15.7216 5.44329 15.7491 5.49827 15.7803 5.54609C15.943 5.79559 16.2083 5.95961 16.5042 5.9935C16.561 6 16.6224 6 16.7454 6H17.8C18.9201 6 19.4802 6 19.908 6.21799C20.2843 6.40973 20.5903 6.71569 20.782 7.09202C21 7.51984 21 8.0799 21 9.2V16.8C21 17.9201 21 18.4802 20.782 18.908C20.5903 19.2843 20.2843 19.5903 19.908 19.782C19.4802 20 18.9201 20 17.8 20H6.2C5.0799 20 4.51984 20 4.09202 19.782C3.71569 19.5903 3.40973 19.2843 3.21799 18.908C3 18.4802 3 17.9201 3 16.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
-                                </g>
-                            </svg>
-                        Ambil Foto
-                    </button>
-
-                    <!-- Canvas untuk menyimpan gambar -->
-                    <canvas id="canvas" class="hidden"></canvas>
-                    <img  
-                        id="photoPreview" 
-                        class="mt-4 hidden w-full max-w-xs border-2 border-sky-300 rounded-lg shadow-md" 
-                        alt="Hasil Foto">
-
-                    <input type="hidden" name="foto_absensi" id="fotoInput">
-
-                    {{-- Notifikasi Error Akses Kamera --}}
-                    <div id="cameraErrorNotification" class="hidden mt-4 p-3 w-full max-w-xs bg-red-100 text-red-700 text-sm rounded-md text-center">
-                        Gagal mengakses kamera. Pastikan Anda telah memberikan izin.
-                    </div>
+            <div class="p-6 flex flex-col items-center gap-4">
+                <label for="camera" class="block text-xl font-semibold text-sky-800 text-center">
+                Ambil Foto Kehadiran
+                </label>
+                
+                {{-- Video Element untuk Kamera --}}
+                <div class="w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-md mx-auto">
+                <video id="video" class="w-full h-full object-cover" autoplay playsinline muted></video>
                 </div>
+                
+                <button type="button" id="capture" class="mt-4 w-full max-w-xs bg-sky-800 text-white px-6 py-3 rounded-lg 
+                        hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
+                        transition-all duration-300 ease-in-out text-base font-semibold shadow-md hover:shadow-lg
+                        flex items-center justify-center gap-2">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier"> 
+                        <path d="M12 16C13.6569 16 15 14.6569 15 13C15 11.3431 13.6569 10 12 10C10.3431 10 9 11.3431 9 13C9 14.6569 10.3431 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                        <path d="M3 16.8V9.2C3 8.0799 3 7.51984 3.21799 7.09202C3.40973 6.71569 3.71569 6.40973 4.09202 6.21799C4.51984 6 5.0799 6 6.2 6H7.25464C7.37758 6 7.43905 6 7.49576 5.9935C7.79166 5.95961 8.05705 5.79559 8.21969 5.54609C8.25086 5.49827 8.27836 5.44328 8.33333 5.33333C8.44329 5.11342 8.49827 5.00346 8.56062 4.90782C8.8859 4.40882 9.41668 4.08078 10.0085 4.01299C10.1219 4 10.2448 4 10.4907 4H13.5093C13.7552 4 13.8781 4 13.9915 4.01299C14.5833 4.08078 15.1141 4.40882 15.4394 4.90782C15.5017 5.00345 15.5567 5.11345 15.6667 5.33333C15.7216 5.44329 15.7491 5.49827 15.7803 5.54609C15.943 5.79559 16.2083 5.95961 16.5042 5.9935C16.561 6 16.6224 6 16.7454 6H17.8C18.9201 6 19.4802 6 19.908 6.21799C20.2843 6.40973 20.5903 6.71569 20.782 7.09202C21 7.51984 21 8.0799 21 9.2V16.8C21 17.9201 21 18.4802 20.782 18.908C20.5903 19.2843 20.2843 19.5903 19.908 19.782C19.4802 20 18.9201 20 17.8 20H6.2C5.0799 20 4.51984 20 4.09202 19.782C3.71569 19.5903 3.40973 19.2843 3.21799 18.908C3 18.4802 3 17.9201 3 16.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                    </g>
+                    </svg>
+                Ambil Foto
+                </button>
+
+                <!-- Canvas untuk menyimpan gambar -->
+                <canvas id="canvas" class="hidden"></canvas>
+                <img  
+                id="photo" 
+                class="mt-4 hidden w-full max-w-xs border-2 border-sky-300 rounded-lg shadow-md" 
+                alt="Hasil Foto">
+
+                {{-- Notifikasi Error Akses Kamera --}}
+                <div id="cameraErrorNotification" class="hidden mt-4 p-3 w-full max-w-xs bg-red-100 text-red-700 text-sm rounded-md text-center">
+                Gagal mengakses kamera. Pastikan Anda telah memberikan izin.
+                </div>
+            </div>
             </div>
 
             {{-- Keterangan Text Area --}}
@@ -205,7 +202,73 @@
             <div class="py-2"></div>   
         </form>
     </div>
-    @section('scripts')
-        <script src="{{ asset('js/absensi.js') }}"></script>
-    @endsection
+    <script>
+    document.getElementById('getLocation').addEventListener('click', function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
+
+                // Update nilai latitude dan longitude pada form
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lon;
+
+                // Tampilkan pesan sukses
+                let notif = document.getElementById('notification');
+                notif.innerText = `✅Data Lokasi berhasil diambil`;
+                notif.classList.remove('hidden', 'bg-red-500');
+                notif.classList.add('bg-amber-500');
+
+            }, function(error) {
+                let notif = document.getElementById('notification');
+                notif.innerText = `❎ Mohon nyalakan lokasi Anda`;
+                notif.classList.remove('hidden', 'bg-green-500');
+                notif.classList.add('bg-red-500'); // Ubah warna menjadi merah
+            });
+        } else {
+            let notif = document.getElementById('notification');
+            notif.innerText = '❎ Geolokasi tidak didukung oleh browser Anda.';
+            notif.classList.remove('hidden', 'bg-green-500');
+            notif.classList.add('bg-red-500'); // Ubah warna menjadi merah
+        }
+    });
+
+    // Mendapatkan akses kamera device
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const photo = document.getElementById('photo');
+    const captureButton = document.getElementById('capture');
+    const constraints = {
+        video: {
+            facingMode: "environment" // Menggunakan kamera belakang
+        }
+    };
+
+    // Memulai kamera
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(stream) {
+            video.srcObject = stream;
+        })
+        .catch(function(error) {
+            console.error("Error accessing the camera:", error);
+        });
+
+    // Fungsi untuk mengambil foto dari video dan menampilkannya
+    captureButton.addEventListener('click', function() {
+        // Menyusun gambar di canvas
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Menampilkan gambar di tag <img>
+        const dataURL = canvas.toDataURL('image/png');
+        photo.src = dataURL;
+        photo.classList.remove('hidden');
+        canvas.classList.add('hidden');
+
+        // Menyimpan data URL ke input foto
+        document.getElementById('fotoInput').value = dataURL;
+    });
+    </script>
 </x-layouts.base>

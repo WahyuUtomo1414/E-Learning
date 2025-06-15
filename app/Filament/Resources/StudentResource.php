@@ -38,7 +38,7 @@ class StudentResource extends Resource
             ->schema([
                 Select::make('user_id')
                     ->required()
-                    ->options(User::where('role_Id', 3)->pluck('name', 'id'))
+                    ->options(User::where('role_id', 3)->pluck('name', 'id'))
                     ->label('User')
                     ->searchable(),
                 Hidden::make('student_number')

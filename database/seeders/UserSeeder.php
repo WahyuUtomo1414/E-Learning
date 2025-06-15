@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'phone_number' => '08123456789',
                 'avatar_url' => 'default.png',
-                'role_id' => 1,
+                'role_id' => 3,
                 'school_id' => null,
                 'status_id' => 1,      
             ]
