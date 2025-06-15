@@ -21,7 +21,7 @@ class AttendanceController extends Controller
     public function store(AttendanceRequest $request)
     {
         try {
-            $validated = $request->validate();
+            $validated = $request->validated();
             // $attendance = Attendance::create([
             //     'user_id' => Filament::auth()->user(),
             //     'latitude' => $request->latitude,
@@ -51,10 +51,7 @@ class AttendanceController extends Controller
             //     $attendance->status_id = 5;
             // }
 
-            return response()->redirectTo('/succes')->json([
-                'message' => 'attendance berhasil dibuat',
-                'data' => $attendance
-            ]);
+            return redirect('/success')->with('success', 'Absensi berhasil!');
 
         } catch (Exception $e) {
             return response()->redirectTo('/eror-attendance')

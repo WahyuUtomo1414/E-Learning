@@ -6,19 +6,21 @@ use Exception;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\AttendanceRequest;
+use Filament\Facades\Filament;
 
 class AttendanceObserver
 {
     /**
      * Handle the Attendance "created" event.
      */
-    public function creating(AttendanceRequest $request, Attendance $attendance): void
+    public function creating(Attendance $attendance): void
     {
-        // Proses gambar base64
-        if ($request->has('foto')) {
-            $imageData = $request->input('foto');
+        $user = Filament::auth()->user();
 
-            // Validasi: cek apakah format base64 valid
+        if (request()->has('foto')) {
+            $imageData = request()->input('foto');
+
+            // Validasi format base64
             if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
                 $image = substr($imageData, strpos($imageData, ',') + 1);
                 $image = base64_decode($image);
@@ -27,17 +29,22 @@ class AttendanceObserver
                     throw new Exception('Base64 decoding error.');
                 }
 
-                $imageExtension = strtolower($type[1]); // jpg, png, gif, etc.
+                $imageExtension = strtolower($type[1]); // jpg/png
                 $imageName = 'absen_' . $user->id . '_' . time() . '.' . $imageExtension;
 
-                // Simpan ke storage/app/public/absensi/
+                // Simpan gambar ke storage
                 Storage::disk('public')->put("absensi/{$imageName}", $image);
+
+                // Simpan nama file ke kolom 'foto'
+                $attendance->foto = $imageName;
             } else {
                 throw new Exception('Invalid image format.');
             }
         } else {
             throw new Exception('Foto tidak ditemukan.');
         }
+
+        $attendance->user_id = $user->id;
     }
 
     public function created(Attendance $attendance): void

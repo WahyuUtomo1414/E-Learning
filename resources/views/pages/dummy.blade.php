@@ -62,7 +62,7 @@
                 {{-- Konten dinamis akan masuk di sini --}}
             </div>
         </div>
-        <form action="{{ route('attendance') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('attendance.store') }}" method="POST">
             @csrf
             <div class="relative bg-gradient-to-br from-white to-gray-100 text-black max-w-[380px] h-auto mx-auto my-6 rounded-2xl shadow border border-gray-200 justify-items-center">
                 <img src="{{ asset('images/iconloc.png') }}" class="w-12 h-12 object-cover border border-gray-100 mt-2" alt="icon absen" />
@@ -95,7 +95,7 @@
             @enderror
 
             <!-- Input Data Foto -->
-            <input type="hidden" name="foto" id="fotoInput" value="{{ old('fotoInput') }}">
+            <input type="hidden" name="foto" id="foto" value="{{ old('foto') }}">
             @error('fotoInput')
                 <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
@@ -213,7 +213,7 @@
         canvas.classList.add('hidden');
 
         // Menyimpan data URL ke input foto
-        document.getElementById('fotoInput').value = dataURL;
+        document.getElementById('foto').value = dataURL;
     });
     </script>
 </x-layouts.base>

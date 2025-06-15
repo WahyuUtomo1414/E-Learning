@@ -29,4 +29,5 @@ Route::get('/eror-attendance', function () {
 });
 
 // route untuk absen
-Route::post('/dummy', [AttendanceController::class, 'store'])->name('attendance');
+Route::get('/dummy', [AttendanceController::class, 'create'])->name('attendance.create');
+Route::post('/dummy', [AttendanceController::class, 'store'])->name('attendance.store');
