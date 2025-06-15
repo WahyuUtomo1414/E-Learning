@@ -23,12 +23,30 @@ class AttendanceController extends Controller
         $data = $request->validated();
         $user = Filament::auth()->user();
 
-         // Simpan gambar base64
-        $image = $request->input('foto');
-        $image = str_replace('data:image/png;base64,', '', $image);
-        $image = str_replace(' ', '+', $image);
-        $imageName = 'absen_' . $user->name . time() . '.png';
-        Storage::disk('public')->put("absensi/{$imageName}", base64_decode($image));
+        // Proses gambar base64
+        if ($request->has('foto')) {
+            $imageData = $request->input('foto');
+
+            // Validasi: cek apakah format base64 valid
+            if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
+                $image = substr($imageData, strpos($imageData, ',') + 1);
+                $image = base64_decode($image);
+
+                if ($image === false) {
+                    throw new Exception('Base64 decoding error.');
+                }
+
+                $imageExtension = strtolower($type[1]); // jpg, png, gif, etc.
+                $imageName = 'absen_' . $user->id . '_' . time() . '.' . $imageExtension;
+
+                // Simpan ke storage/app/public/absensi/
+                Storage::disk('public')->put("absensi/{$imageName}", $image);
+            } else {
+                throw new Exception('Invalid image format.');
+            }
+        } else {
+            throw new Exception('Foto tidak ditemukan.');
+        }
 
         DB::beginTransaction();
 

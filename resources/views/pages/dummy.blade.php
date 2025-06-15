@@ -84,8 +84,8 @@
             @enderror
 
             <!-- Input Data Foto -->
-            <input type="hidden" name="foto_absensi" id="fotoInput" value="{{ old('foto_absensi') }}">
-            @error('foto_absensi')
+            <input type="hidden" name="foto" id="fotoInput" value="{{ old('foto') }}">
+            @error('foto')
             <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
 

@@ -25,7 +25,7 @@ class AttendanceRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
-            'foto'  => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'required', 'string',
             'desc' => 'nullable|string|max:255',
             'status_id' => 'required|exists:status,id,status_type_id,2',
         ];
