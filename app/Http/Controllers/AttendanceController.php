@@ -29,6 +29,7 @@ class AttendanceController extends Controller
             //     'desc' => $request->desc,
             //     'status_id' => $request->status_id
             // ]);
+            $validated['foto'] = $this->processImage($validated['foto']);
 
             $attendance = new Attendance();
             $attendance->fill($validated);
@@ -57,5 +58,23 @@ class AttendanceController extends Controller
             return response()->redirectTo('/eror-attendance')
                 ->with('error', 'Absensi Gagal Dilakukan: ' . $e->getMessage());
         }
+    }
+
+    private function processImage($base64Image)
+    {
+        $imageParts = explode(";base64,", $base64Image);
+        if (count($imageParts) === 2) {
+            $base64Image = $imageParts[1]; 
+        }
+
+        $imageData = base64_decode($base64Image);
+        if ($imageData === false) {
+            return back()->with('error', 'Gagal mengkonversi gambar.');
+        }
+
+        $imageName = uniqid() . '.png';
+        Storage::disk('absensi')->put($imageName, $imageData);
+
+        return "absensi_images/{$imageName}";
     }
 }
