@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreignId('status_type_id')->constrained('status_type');
             $table->string('name', 128);
             $table->string('desc', 255)->nullable();
-            $table->string('color', 12);
-            $table->string('icon', 255)->nullable();
             $this->base($table);
         });
     }
