@@ -54,6 +54,14 @@ return [
             'visibility' => 'public',
         ],
 
+        'absensi' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/absensi_images'),
+            'url' => env('APP_URL', "http://127.0.0.1:8000") . '/storage/absensi_images',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
