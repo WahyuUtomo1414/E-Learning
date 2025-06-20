@@ -37,24 +37,28 @@ class AttendanceTable extends BaseWidget
                     ->label('Student Name')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('Student Name')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('created_date')
                     ->label('Date')
                     ->getStateUsing(fn ($record) => \Carbon\Carbon::parse($record->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('d M Y'))
                     ->sortable(),
                 TextColumn::make('created_time')
                     ->label('Time')
-                    ->getStateUsing(fn ($record) => \Carbon\Carbon::parse($record->created_at->setTimezone('Asia/Jakarta'))->format('H:i:s'))
+                    ->getStateUsing(fn ($record) => \Carbon\Carbon::parse($record->created_at->setTimezone('Asia/Jakarta'))->format('H:i:s') . ' WIB')
                     ->sortable(),
                 TextColumn::make('location')
                     ->label('Location')
                     ->icon('heroicon-o-map-pin')
                     ->getStateUsing(fn($record) => 
-                        new HtmlString("<a href='https://www.google.com/maps?q={$record->latitude},{$record->longitude}' target='_blank' style='color: #3b82f6;'>Lihat Google Maps</a>"))
+                        new HtmlString("<a href='https://www.google.com/maps?q={$record->latitude},{$record->longitude}' target='_blank' style='color: #3b82f6;'>View Google Maps</a>"))
                     ->html()
                     ->color('info'),
                 ImageColumn::make('foto')
                     ->label('Foto')
-                    ->disk('public'),
+                    ->disk('absensi'),
                 TextColumn::make('desc')
                     ->label('Description')
                     ->limit(50)
@@ -62,11 +66,12 @@ class AttendanceTable extends BaseWidget
                 TextColumn::make('status.name')
                     ->label('Status')
                     ->sortable(),
-                SelectColumn::make('status.name')
-                    ->label('Attendance Status')
-                    ->options(Status::where('status_type_id', 2)->pluck('name', 'id'))
-                    ->disabled(fn () => Auth::user()->role_id == 3)
-                    ->searchable()
+                TextColumn::make('desc')
+                    ->label('Description')
+                    ->limit(50)
+                    ->searchable(),
+                TextColumn::make('status.name')
+                    ->label('Status')
                     ->sortable(),
             ])
             ->searchable();
