@@ -14,7 +14,9 @@
                     Selamat pagi <span class="font-semibold font-inter">{{ $user->name }}</span>, data kehadiran kamu telah dicatat. Silakan lanjutkan aktivitas pembelajaran.
                 </p>
                 {{-- Opsional: Tambah waktu absensi --}}
-                <p class="text-xs text-gray-600 mt-1">Dicatat pada: {{ now()->format('d M Y, H:i') }} WIB</p>
+                <p class="text-xs text-gray-600 mt-1">
+                    Dicatat pada: {{ now()->setTimezone('Asia/Jakarta')->format('d M Y, H:i') }} WIB
+                </p>
             </div>
 
             {{-- Tombol kembali --}}
