@@ -26,11 +26,9 @@ class AttendanceTable extends BaseWidget
         return $table
             ->query(
                 Attendance::query()
-                    ->with('user', 'status')
-                    ->when(Auth::user()->role_id === 3, function ($query) {
-                        $query->whereHas('user', function ($q) {
-                            $q->where('created_by', Auth::id());
-                        });
+                    ->with('user')
+                    ->when(Auth::user()->role_id == 3, function ($query) {
+                        $query->where('user_id', Auth::id());
                     })
             )
             ->defaultPaginationPageOption(10)
