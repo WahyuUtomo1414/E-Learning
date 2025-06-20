@@ -39,29 +39,6 @@ class AttendanceResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('user_id')
-                    ->required()
-                    ->options(User::where('role_id', 3)->pluck('name', 'id'))
-                    ->searchable()
-                    ->label('Student')
-                    ->columnSpanFull(),
-                Section::make('Data Location')
-                    ->description('Ambil Dari Google Maps')
-                    ->schema([
-                        TextInput::make('latitude')
-                            ->required(),
-                        TextInput::make('longitude')
-                            ->required(),
-                    ])->columns(2),
-                FileUpload::make('foto')
-                    ->required()
-                    ->image()
-                    ->directory('Absensi')
-                    ->columnSpanFull(),
-                Textarea::make('desc')
-                    ->maxLength(255)
-                    ->label('Description')
-                    ->columnSpanFull(),
                 Select::make('status_id')
                     ->required()
                     ->label('Status')
@@ -95,7 +72,7 @@ class AttendanceResource extends Resource
                     ->color('info'),
                 ImageColumn::make('foto')
                     ->label('Foto')
-                    ->disk('public'),
+                    ->disk('absensi'),
                 TextColumn::make('desc')
                     ->label('Description')
                     ->limit(50)
@@ -124,14 +101,6 @@ class AttendanceResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-            // ->headerActions([
-            //     Action::make('create') // method untuk membuat tombol absen  
-            //         ->label('Tambah Presensi')
-            //         ->icon('heroicon-o-calendar-days')
-            //         ->color('info')
-            //         ->url(fn () => url('/dummy'))
-            //         ->openUrlInNewTab(false),
-            // ])
     }
 
     public static function getRelations(): array

@@ -76,6 +76,6 @@ class AttendanceController extends Controller
         $imageName = uniqid() . '.png';
         Storage::disk('absensi')->put($imageName, $imageData);
 
-        return "absensi_images/{$imageName}";
+        return $imageName;
     }
 }

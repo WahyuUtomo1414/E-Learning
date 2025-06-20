@@ -56,8 +56,8 @@ return [
 
         'absensi' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/absensi_images'),
-            'url' => env('APP_URL', "http://127.0.0.1:8000") . '/storage/absensi_images',
+            'root' => storage_path('app/public/absensi'), 
+            'url' => env('APP_URL') . '/storage/absensi',
             'visibility' => 'public',
             'throw' => false,
         ],
