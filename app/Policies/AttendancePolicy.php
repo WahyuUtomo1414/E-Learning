@@ -38,7 +38,7 @@ class AttendancePolicy
      */
     public function update(User $user, Attendance $attendance): bool
     {
-        return true;
+        return $user->role_id != 3;
     }
 
     /**
@@ -46,12 +46,12 @@ class AttendancePolicy
      */
     public function delete(User $user, Attendance $attendance): bool
     {
-        return true;
+        return $user->role_id == 1;
     }
 
     public function deleteAny(User $user): bool
     {
-        return true;
+        return $user->role_id == 1;
     }
 
     /**
@@ -59,7 +59,7 @@ class AttendancePolicy
      */
     public function restore(User $user, Attendance $attendance): bool
     {
-        return true;
+        return $user->role_id == 1;
     }
 
     /**
@@ -67,6 +67,6 @@ class AttendancePolicy
      */
     public function forceDelete(User $user, Attendance $attendance): bool
     {
-        return true;
+        return $user->role_id == 1;
     }
 }
