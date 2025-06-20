@@ -27,7 +27,6 @@ class AttendanceRequest extends FormRequest
             'longitude' => 'required|string|max:255',
             'foto' => 'required', 'string',
             'desc' => 'nullable|string|max:255',
-            'status_id' => 'required|exists:status,id,status_type_id,2',
         ];
     }
 }

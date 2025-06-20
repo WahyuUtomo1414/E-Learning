@@ -35,7 +35,7 @@ class AttendanceController extends Controller
             $attendance->fill($validated);
             $attendance->save();
 
-            // Cek apakah user sudah absen hari ini
+            //Cek apakah user sudah absen hari ini
             // $attendance = Attendance::where('user_id', $request->user_id)
             //     ->whereDate('created_at', now()->toDateString())
             //     ->first();
