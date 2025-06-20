@@ -21,20 +21,11 @@ class AttendanceController extends Controller
     public function store(AttendanceRequest $request)
     {
         try {
+            // validasi data
             $validated = $request->validated();
-            // $attendance = Attendance::create([
-            //     'user_id' => Filament::auth()->user(),
-            //     'latitude' => $request->latitude,
-            //     'longitude' => $request->longitude,
-            //     'desc' => $request->desc,
-            //     'status_id' => $request->status_id
-            // ]);
+
             $validated['foto'] = $this->processImage($validated['foto']);
             $validated['status_id'] = 4;
-
-            $attendance = new Attendance();
-            $attendance->fill($validated);
-            $attendance->save();
 
             //Cek apakah user sudah absen hari ini
             // $attendance = Attendance::where('user_id', $request->user_id)
@@ -50,8 +41,13 @@ class AttendanceController extends Controller
             // $currentTime = now()->format('H:i:s');
 
             // if ($currentTime > $schoolStartTime) {
-            //     $attendance->status_id = 5;
+            //     $validated['status_id'] = 5;
             // }
+
+            // save data
+            $attendance = new Attendance();
+            $attendance->fill($validated);
+            $attendance->save();
 
             return redirect('/succes')->with('success', 'Absensi berhasil!');
 
