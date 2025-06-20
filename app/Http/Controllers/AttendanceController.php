@@ -30,6 +30,7 @@ class AttendanceController extends Controller
             //     'status_id' => $request->status_id
             // ]);
             $validated['foto'] = $this->processImage($validated['foto']);
+            $validated['status_id'] = 4;
 
             $attendance = new Attendance();
             $attendance->fill($validated);
@@ -52,7 +53,7 @@ class AttendanceController extends Controller
             //     $attendance->status_id = 5;
             // }
 
-            return redirect('/success')->with('success', 'Absensi berhasil!');
+            return redirect('/succes')->with('success', 'Absensi berhasil!');
 
         } catch (Exception $e) {
             return response()->redirectTo('/eror-attendance')
