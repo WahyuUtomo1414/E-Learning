@@ -1,4 +1,4 @@
-<x-layouts.base :title="'Dummy'">
+<x-layouts.base :title="'Attendance'">
 
     <div class="max-w-[430px] sm:max-w-[400px] h-auto shadow-lg bg-white mx-auto font-inter">
         
