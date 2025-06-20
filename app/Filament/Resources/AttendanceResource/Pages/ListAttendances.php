@@ -18,7 +18,7 @@ class ListAttendances extends ListRecords
                 ->label('Create Attendance')
                 ->icon('heroicon-o-calendar-days')
                 ->color('info')
-                ->url(fn () => url('/dummy'))
+                ->url(fn () => url('/attendance'))
                 ->openUrlInNewTab(false),
         ];
     }
